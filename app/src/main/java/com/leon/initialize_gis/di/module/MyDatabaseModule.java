@@ -9,7 +9,6 @@ import com.leon.initialize_gis.utils.MyDatabase;
 import dagger.Module;
 import dagger.Provides;
 
-//@Singleton
 @Module
 public class MyDatabaseModule {
     private final MyDatabase myDatabase;
@@ -18,7 +17,6 @@ public class MyDatabaseModule {
         this.myDatabase = MyDatabaseClientModel.getInstance(context).getMyDatabase();
     }
 
-//    @Singleton
     @Provides
     public MyDatabase providesMyDatabase() {
         return myDatabase;

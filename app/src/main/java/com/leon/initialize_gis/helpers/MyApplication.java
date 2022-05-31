@@ -1,5 +1,6 @@
 package com.leon.initialize_gis.helpers;
 
+import static com.leon.initialize_gis.enums.SharedReferenceNames.ACCOUNT;
 import static com.leon.initialize_gis.helpers.Constants.FONT_NAME;
 import static com.leon.initialize_gis.helpers.Constants.TOAST_TEXT_SIZE;
 import static com.leon.initialize_gis.utils.CheckSensor.checkSensor;
@@ -14,15 +15,18 @@ import androidx.multidex.MultiDex;
 import com.leon.initialize_gis.di.component.ActivityComponent;
 import com.leon.initialize_gis.di.component.ApplicationComponent;
 import com.leon.initialize_gis.di.component.DaggerActivityComponent;
-import com.leon.initialize_gis.di.module.CustomDialogModule;
+import com.leon.initialize_gis.di.component.DaggerApplicationComponent;
+import com.leon.initialize_gis.di.module.DialogModule;
 import com.leon.initialize_gis.di.module.LocationTrackingModule;
+import com.leon.initialize_gis.di.module.MyDatabaseModule;
+import com.leon.initialize_gis.di.module.ProgressModule;
+import com.leon.initialize_gis.di.module.SharedPreferenceModule;
 import com.leon.initialize_gis.interfaces.ILocationTracking;
 
 import es.dmoral.toasty.Toasty;
 
 public class MyApplication extends Application {
     private static Context appContext;
-
     private static ApplicationComponent applicationComponent;
     private static ActivityComponent activityComponent;
 
@@ -32,7 +36,7 @@ public class MyApplication extends Application {
 
     public static void setActivityComponent(Activity activity) {
         activityComponent = DaggerActivityComponent.builder()
-                .customDialogModule(new CustomDialogModule(activity))
+                .dialogModule(new DialogModule(activity))
                 .locationTrackingModule(new LocationTrackingModule(activity)).build();
     }
 
@@ -55,13 +59,12 @@ public class MyApplication extends Application {
         Toasty.Config.getInstance().tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), FONT_NAME))
                 .setTextSize(TOAST_TEXT_SIZE).allowQueue(true).apply();
-//        applicationComponent = DaggerApplicationComponent
-//                .builder().networkModule(new NetworkModule())
-//                .flashModule(new FlashModule(appContext))
-//                .customProgressModule(new CustomProgressModule())
-//                .myDatabaseModule(new MyDatabaseModule(appContext))
-//                .sharedPreferenceModule(new SharedPreferenceModule(appContext, ACCOUNT)).build();
-//        applicationComponent.inject(this);
+        applicationComponent = DaggerApplicationComponent
+                .builder()
+                .progressModule(new ProgressModule())
+                .myDatabaseModule(new MyDatabaseModule(appContext))
+                .sharedPreferenceModule(new SharedPreferenceModule(appContext, ACCOUNT)).build();
+        applicationComponent.inject(this);
         super.onCreate();
     }
 

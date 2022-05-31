@@ -9,10 +9,10 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class CustomDialogModule {
+public class DialogModule {
     private final LovelyStandardDialog lovelyStandardDialog;
 
-    public CustomDialogModule(Context context) {
+    public DialogModule(Context context) {
         DialogModel dialogModel = new DialogModel(context);
         this.lovelyStandardDialog = dialogModel.getLovelyStandardDialog();
     }
