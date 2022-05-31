@@ -1,0 +1,74 @@
+package com.leon.initialize_gis.helpers;
+
+import static com.leon.initialize_gis.helpers.Constants.FONT_NAME;
+import static com.leon.initialize_gis.helpers.Constants.TOAST_TEXT_SIZE;
+import static com.leon.initialize_gis.utils.CheckSensor.checkSensor;
+
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
+import android.graphics.Typeface;
+
+import androidx.multidex.MultiDex;
+
+import com.leon.initialize_gis.di.component.ActivityComponent;
+import com.leon.initialize_gis.di.component.ApplicationComponent;
+import com.leon.initialize_gis.di.component.DaggerActivityComponent;
+import com.leon.initialize_gis.di.module.CustomDialogModule;
+import com.leon.initialize_gis.di.module.LocationTrackingModule;
+import com.leon.initialize_gis.interfaces.ILocationTracking;
+
+import es.dmoral.toasty.Toasty;
+
+public class MyApplication extends Application {
+    private static Context appContext;
+
+    private static ApplicationComponent applicationComponent;
+    private static ActivityComponent activityComponent;
+
+    public static ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
+
+    public static void setActivityComponent(Activity activity) {
+        activityComponent = DaggerActivityComponent.builder()
+                .customDialogModule(new CustomDialogModule(activity))
+                .locationTrackingModule(new LocationTrackingModule(activity)).build();
+    }
+
+    public static ILocationTracking getLocationTracker(Activity activity) {
+        return checkSensor(activity) ? activityComponent.LocationTrackingGoogle() :
+                activityComponent.LocationTrackingGps();
+    }
+
+    public static ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
+    }
+
+    public static Context getContext() {
+        return appContext;
+    }
+
+    @Override
+    public void onCreate() {
+        appContext = getApplicationContext();
+        Toasty.Config.getInstance().tintIcon(true)
+                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), FONT_NAME))
+                .setTextSize(TOAST_TEXT_SIZE).allowQueue(true).apply();
+//        applicationComponent = DaggerApplicationComponent
+//                .builder().networkModule(new NetworkModule())
+//                .flashModule(new FlashModule(appContext))
+//                .customProgressModule(new CustomProgressModule())
+//                .myDatabaseModule(new MyDatabaseModule(appContext))
+//                .sharedPreferenceModule(new SharedPreferenceModule(appContext, ACCOUNT)).build();
+//        applicationComponent.inject(this);
+        super.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+}
+

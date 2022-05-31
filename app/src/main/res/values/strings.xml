@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">نصب Gis</string>
+    <string name="cancel">لغو</string>
+    <string name="ok">تایید</string>
+    <string name="confirm">تایید</string>
+    <string name="accepted">تایید</string>
+    <string name="do_not_show_again">دیگر نمایش نده</string>
+    <string name="canceled">عملیات متوقف شد.</string>
+    <string name="waiting">لطفا صبر کنید…</string>
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -9,4 +17,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <string name="ex_msg_dialog_choice_confirm">Confirm button is only for multi choice lists. You must call setMultiChoiceItems first</string>
+    <string name="ex_msg_dialog_view_not_set">You must call method setView before calling configureView.</string>
 </resources>
