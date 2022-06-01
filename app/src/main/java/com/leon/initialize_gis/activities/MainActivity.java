@@ -22,7 +22,7 @@ import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.adapters.RecyclerItemClickListener;
 import com.leon.initialize_gis.base_items.BaseActivity;
 import com.leon.initialize_gis.databinding.ActivityMainBinding;
-import com.leon.initialize_gis.fragments.AddPointFragment;
+import com.leon.initialize_gis.fragments.LocationPointFragment;
 import com.leon.initialize_gis.fragments.ExportFragment;
 import com.leon.initialize_gis.fragments.HomeFragment;
 import com.leon.initialize_gis.fragments.ReportFragment;
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
                 return ReportFragment.newInstance();
             case POINT_FRAGMENT:
                 setTitle(R.string.location);
-                return AddPointFragment.newInstance();
+                return LocationPointFragment.newInstance();
             case EXPORT_FRAGMENT:
                 setTitle(R.string.export);
                 return ExportFragment.newInstance();

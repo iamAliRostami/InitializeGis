@@ -55,4 +55,12 @@
     <string name="user_not_found">نام کاربری و گذرواژه مطابقت ندارند.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <string name="date">تاریخ</string>
+    <string name="end">تا</string>
+    <string name="from">از</string>
+
+    <string name="save_format_name_melli">yyyyMMdd_HHmmss_SSS</string>
 </resources>

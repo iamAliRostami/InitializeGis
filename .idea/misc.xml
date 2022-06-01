@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/drawable/background_spinner.xml" value="0.165" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/drawable/border.xml" value="0.165" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/drawable/border_black_1.xml" value="0.164" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/drawable/border_black_2.xml" value="0.165" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/drawable/border_blue_3.xml" value="0.165" />
+        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/drawable/border_yellow_1.xml" value="0.2225" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/activity_base.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/activity_start.xml" value="0.24375" />
@@ -26,7 +28,7 @@
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/dialog_view_color_area.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/dialog_view_title_and_message.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_add_point.xml" value="0.2265625" />
-        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_export.xml" value="0.24375" />
+        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_export.xml" value="0.136" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_report.xml" value="0.24375" />

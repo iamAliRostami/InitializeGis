@@ -135,4 +135,30 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
     </style>
+
+    <style name="Spinner" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:dividerHeight">@dimen/large_dp</item>
+        <item name="android:divider">#000</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="popupMenuBackground">@drawable/border_gray_5</item>
+        <item name="android:popupBackground">@drawable/border_gray_5</item>
+        <item name="background">@drawable/background_spinner</item>
+        <item name="android:background">@drawable/background_spinner</item>
+    </style>
+
+    <style name="InputPlace">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:gravity">center</item>
+        <item name="background">@drawable/border_gray_2</item>
+        <item name="android:background">@drawable/border_gray_2</item>
+        <item name="android:inputType">number</item>
+        <item name="maxLines">1</item>
+        <item name="android:padding">@dimen/medium_dp</item>
+    </style>
 </resources>

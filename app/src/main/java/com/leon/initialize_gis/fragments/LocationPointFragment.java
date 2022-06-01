@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.leon.initialize_gis.databinding.FragmentAddPointBinding;
+import com.leon.initialize_gis.databinding.FragmentLocationPointBinding;
 
-public class AddPointFragment extends Fragment {
-    private FragmentAddPointBinding binding;
 
-    public AddPointFragment() {
+public class LocationPointFragment extends Fragment {
+    private FragmentLocationPointBinding binding;
+
+    public LocationPointFragment() {
     }
 
-    public static AddPointFragment newInstance() {
-        return new AddPointFragment();
+    public static LocationPointFragment newInstance() {
+        return new LocationPointFragment();
     }
 
     @Override
@@ -28,7 +29,7 @@ public class AddPointFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAddPointBinding.inflate(inflater, container, false);
+        binding = FragmentLocationPointBinding.inflate(inflater, container, false);
         initialize();
         return binding.getRoot();
     }
