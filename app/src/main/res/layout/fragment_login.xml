@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_10sdp"
         android:layout_below="@id/view_top"
-        android:background="?attr/colorPrimaryDark" />
+        android:background="?attr/colorPrimaryVariant" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -57,7 +57,6 @@
             android:layout_height="match_parent"
             android:src="@drawable/img_user"
             tools:ignore="ContentDescription" />
-
         <EditText
             android:id="@+id/edit_text_username"
             style="@style/InputGray"

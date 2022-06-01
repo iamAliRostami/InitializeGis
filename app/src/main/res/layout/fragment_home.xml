@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".fragments.HomeFragment">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_location"
+            android:layout_width="160dp"
+            android:layout_height="190dp"
+            android:layout_margin="@dimen/medium_dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_location"
+                    style="@style/HomeIcons"
+                    android:src="@drawable/img_location"
+                    tools:ignore="ContentDescription" />
+
+
+                <TextView
+                    style="@style/HomeTitles"
+                    android:text="@string/location" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/small_dp"
+                    android:layout_margin="@dimen/medium_dp"
+                    android:background="@color/gray_1" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_report"
+            android:layout_width="160dp"
+            android:layout_height="190dp"
+            android:layout_margin="@dimen/medium_dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_report"
+                    style="@style/HomeIcons"
+                    android:src="@drawable/img_report"
+                    tools:ignore="ContentDescription" />
+
+
+                <TextView
+                    style="@style/HomeTitles"
+                    android:text="@string/reports" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/small_dp"
+                    android:layout_margin="@dimen/medium_dp"
+                    android:background="@color/gray_1" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_export"
+            android:layout_width="160dp"
+            android:layout_height="190dp"
+            android:layout_margin="@dimen/medium_dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_export"
+                    style="@style/HomeIcons"
+                    android:src="@drawable/img_export"
+                    tools:ignore="ContentDescription" />
+
+
+                <TextView
+                    style="@style/HomeTitles"
+                    android:text="@string/location" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/small_dp"
+                    android:layout_margin="@dimen/medium_dp"
+                    android:background="@color/gray_1" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_exit"
+            android:layout_width="160dp"
+            android:layout_height="190dp"
+            android:layout_margin="@dimen/medium_dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_view_exit"
+                    style="@style/HomeIcons"
+                    android:src="@drawable/img_exit"
+                    tools:ignore="ContentDescription" />
+
+
+                <TextView
+                    style="@style/HomeTitles"
+                    android:text="@string/exit" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/small_dp"
+                    android:layout_margin="@dimen/medium_dp"
+                    android:background="@color/gray_1" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

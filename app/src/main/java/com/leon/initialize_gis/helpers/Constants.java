@@ -4,6 +4,15 @@ import android.Manifest;
 
 public class Constants {
     public static boolean exit = false;
+    public static int POSITION = 0;
+
+
+    public static final int HOME_FRAGMENT = 0;
+    public static final int REPORT_FRAGMENT = 1;
+    public static final int POINT_FRAGMENT = 2;
+    public static final int EXPORT_FRAGMENT = 3;
+
+    public static final int EXIT_POSITION = 4;
     public static final int TOAST_TEXT_SIZE = 20;
 
     public static final String FONT_NAME = "fonts/font_1.ttf";

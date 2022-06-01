@@ -28,6 +28,7 @@
     <string name="location">مکان یابی</string>
     <string name="reports">گزارش ها</string>
     <string name="export">خروجی</string>
+    <string name="home">خانه</string>
     <string name="exit">خروج از برنامه</string>
 
 
@@ -51,4 +52,7 @@
 
     <string name="ex_msg_dialog_choice_confirm">Confirm button is only for multi choice lists. You must call setMultiChoiceItems first</string>
     <string name="ex_msg_dialog_view_not_set">You must call method setView before calling configureView.</string>
+    <string name="user_not_found">نام کاربری و گذرواژه مطابقت ندارند.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

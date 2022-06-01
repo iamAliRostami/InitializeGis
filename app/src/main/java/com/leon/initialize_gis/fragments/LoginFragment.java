@@ -24,6 +24,7 @@ import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.activities.MainActivity;
 import com.leon.initialize_gis.databinding.FragmentLoginBinding;
 import com.leon.initialize_gis.interfaces.ISharedPreference;
+import com.leon.initialize_gis.utils.CustomToast;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
@@ -132,8 +133,7 @@ public class LoginFragment extends Fragment {
                 final Intent intent = new Intent(requireContext(), MainActivity.class);
                 startActivity(intent);
                 requireActivity().finish();
-            }
-
+            } else new CustomToast().warning(getString(R.string.user_not_found));
         }
     }
 
