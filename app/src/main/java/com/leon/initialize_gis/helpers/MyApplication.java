@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 
 import androidx.multidex.MultiDex;
 
@@ -29,6 +30,28 @@ public class MyApplication extends Application {
     private static Context appContext;
     private static ApplicationComponent applicationComponent;
     private static ActivityComponent activityComponent;
+
+
+    @Override
+    public void onCreate() {
+        appContext = getApplicationContext();
+        Toasty.Config.getInstance().tintIcon(true)
+                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), FONT_NAME))
+                .setTextSize(TOAST_TEXT_SIZE).allowQueue(true).apply();
+        applicationComponent = DaggerApplicationComponent
+                .builder()
+                .progressModule(new ProgressModule())
+                .myDatabaseModule(new MyDatabaseModule(appContext))
+                .sharedPreferenceModule(new SharedPreferenceModule(appContext, ACCOUNT)).build();
+        applicationComponent.inject(this);
+        super.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     public static ActivityComponent getActivityComponent() {
         return activityComponent;
@@ -53,25 +76,10 @@ public class MyApplication extends Application {
         return appContext;
     }
 
-    @Override
-    public void onCreate() {
-        appContext = getApplicationContext();
-        Toasty.Config.getInstance().tintIcon(true)
-                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), FONT_NAME))
-                .setTextSize(TOAST_TEXT_SIZE).allowQueue(true).apply();
-        applicationComponent = DaggerApplicationComponent
-                .builder()
-                .progressModule(new ProgressModule())
-                .myDatabaseModule(new MyDatabaseModule(appContext))
-                .sharedPreferenceModule(new SharedPreferenceModule(appContext, ACCOUNT)).build();
-        applicationComponent.inject(this);
-        super.onCreate();
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
+    public static String getAndroidVersion() {
+        final String release = Build.VERSION.RELEASE;
+        final int sdkVersion = Build.VERSION.SDK_INT;
+        return "Android SDK: " + sdkVersion + " (" + release + ")";
     }
 }
 

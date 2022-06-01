@@ -7,6 +7,7 @@
     <string name="do_not_show_again">دیگر نمایش نده</string>
     <string name="canceled">عملیات متوقف شد.</string>
     <string name="waiting">لطفا صبر کنید…</string>
+    <string name="error_empty">این فیلد باید پر شود.</string>
 
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -18,6 +19,35 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+
+    <string name="navigation_drawer_open">باز کردن منو</string>
+    <string name="navigation_drawer_close">بستن منو</string>
+
+    <string name="how_to_exit">جهت خروج، از فهرست، گزینه «خروج» را بزنید.</string>
+
+    <string name="location">مکان یابی</string>
+    <string name="reports">گزارش ها</string>
+    <string name="export">خروجی</string>
+    <string name="exit">خروج از برنامه</string>
+
+
+    <string name="setting">تنظیمات برنامه</string>
+    <string name="if_reject_permission">در صورت رد این مجوز قادر به استفاده از این دستگاه نخواهید بود\nلطفا با فشار دادن دکمه اعطای دسترسی و سپس در بخش دسترسی ها با این مجوز ها موافقت نمایید</string>
+    <string name="active_gps">مکان یابی شما غیر فعال است، با مراجعه به تنظیمات، آن را فعال کنید.</string>
+    <string name="confirm_permission">جهت استفاده از برنامه مجوزهای پیشنهادی را قبول فرمایید</string>
+    <string name="access_granted">مجوز ها داده شده</string>
+    <string name="gps_setting">تنظیمات جی پی اس</string>
+    <string name="allow_permission">اعطای دسترسی</string>
+    <string name="force_close">مجوز ها کامل نیست</string>
+    <string name="permission_not_completed">بستن برنامه</string>
+    <string name="close">بستن</string>
+
+
+    <string name="version">نسخه</string>
+    <string name="username">نام کاربری</string>
+    <string name="password">گذرواژه</string>
+    <string name="login">ورود</string>
+    <string name="save">ذخیره</string>
 
     <string name="ex_msg_dialog_choice_confirm">Confirm button is only for multi choice lists. You must call setMultiChoiceItems first</string>
     <string name="ex_msg_dialog_view_not_set">You must call method setView before calling configureView.</string>

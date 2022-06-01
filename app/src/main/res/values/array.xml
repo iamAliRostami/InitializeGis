@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu">
+        <item>@string/location</item>
+        <item>@string/reports</item>
+        <item>@string/export</item>
+        <item>@string/exit</item>
+    </string-array>
+
+    <array name="icons">
+        <item>@drawable/tiny_img_location</item>
+        <item>@drawable/tiny_img_report</item>
+        <item>@drawable/tiny_img_export</item>
+        <item>@drawable/tiny_img_exit</item>
+    </array>
+</resources>
