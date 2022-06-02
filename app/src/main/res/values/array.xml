@@ -15,4 +15,10 @@
         <item>@drawable/tiny_img_export</item>
         <item>@drawable/tiny_img_exit</item>
     </array>
+
+    <string-array name="export_extension">
+        <item>CSV</item>
+        <item>XLS</item>
+        <item>XLSX</item>
+    </string-array>
 </resources>

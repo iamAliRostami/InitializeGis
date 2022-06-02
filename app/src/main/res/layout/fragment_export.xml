@@ -46,16 +46,12 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_from"
+            android:id="@+id/text_view_start"
             style="@style/InputPlace"
             android:layout_margin="@dimen/low_dp"
             android:maxLength="10"
             android:padding="@dimen/low_dp"
             android:textSize="@dimen/text_size_large" />
-        <!--                <TextView-->
-        <!--                    android:padding="@dimen/low_dp"-->
-        <!--                    android:id="@+id/text_view_from"-->
-        <!--                    style="@style/InputPossible" />-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

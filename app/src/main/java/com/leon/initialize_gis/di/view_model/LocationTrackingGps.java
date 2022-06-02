@@ -13,7 +13,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.IBinder;
 
-import com.leon.initialize_gis.helpers.MyApplication;
 import com.leon.initialize_gis.interfaces.ILocationTracking;
 
 
@@ -51,10 +50,8 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
             if (checkGPS || checkNetwork) {
                 if (checkGPS) {
-                    locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                            MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if (location != null) {

@@ -3,6 +3,7 @@ package com.leon.initialize_gis.helpers;
 import static com.leon.initialize_gis.enums.SharedReferenceNames.ACCOUNT;
 import static com.leon.initialize_gis.helpers.Constants.FONT_NAME;
 import static com.leon.initialize_gis.helpers.Constants.TOAST_TEXT_SIZE;
+import static com.leon.initialize_gis.helpers.Constants.TRIAL_NUMBER;
 import static com.leon.initialize_gis.utils.CheckSensor.checkSensor;
 
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.os.Build;
 
 import androidx.multidex.MultiDex;
 
+import com.leon.initialize_gis.BuildConfig;
 import com.leon.initialize_gis.di.component.ActivityComponent;
 import com.leon.initialize_gis.di.component.ApplicationComponent;
 import com.leon.initialize_gis.di.component.DaggerActivityComponent;
@@ -80,6 +82,11 @@ public class MyApplication extends Application {
         final String release = Build.VERSION.RELEASE;
         final int sdkVersion = Build.VERSION.SDK_INT;
         return "Android SDK: " + sdkVersion + " (" + release + ")";
+    }
+
+    public static boolean checkLicense() {
+        return BuildConfig.BUILD_TYPE.equals("licensed") ||
+                getApplicationComponent().MyDatabase().usersPointDao().pointsCounter() < TRIAL_NUMBER;
     }
 }
 

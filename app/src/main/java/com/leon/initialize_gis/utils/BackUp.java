@@ -22,26 +22,30 @@ import java.util.Date;
 
 public class BackUp extends AsyncTask<Activity, Integer, Void> {
     private final ProgressModel progress;
+    private final String startDate, endDate, extension;
 
-    public BackUp(Activity activity) {
+    public BackUp(Activity activity, String startDate, String endDate, String extension) {
         super();
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.extension = extension;
         progress = getApplicationComponent().ProgressModel();
         progress.show(activity, false);
     }
 
     @SuppressLint("SimpleDateFormat")
-    public static boolean exportDatabaseToCSV(String tableName, String child, Activity activity) {
+    private void exportDatabaseToCSV(String tableName, String child, Activity activity) {
         final File exportDir = new File(Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + child);
-        if (!exportDir.exists()) if (!exportDir.mkdirs()) return false;
+        if (!exportDir.exists()) if (!exportDir.mkdirs()) return;
         final File file = new File(exportDir, tableName + "_" + BuildConfig.BUILD_TYPE + "_"
-                + BuildConfig.VERSION_CODE + ".csv");
+                + BuildConfig.VERSION_CODE + extension);
         try {
-            if (file.exists()) if (!file.delete()) return false;
-            if (!file.createNewFile()) return false;
+            if (file.exists()) if (!file.delete()) return;
+            if (!file.createNewFile()) return;
             final CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
-            final Cursor curCSV = getApplicationComponent().MyDatabase()
-                    .query("SELECT * FROM " + tableName, null);
+            final Cursor curCSV = getApplicationComponent().MyDatabase().query("SELECT * FROM "
+                    + tableName + " WHERE date BETWEEN " + startDate + " AND " + endDate, null);
             csvWrite.writeNext(curCSV.getColumnNames());
             while (curCSV.moveToNext()) {
                 //Which column you want to export
@@ -60,15 +64,12 @@ public class BackUp extends AsyncTask<Activity, Integer, Void> {
             e.printStackTrace();
             activity.runOnUiThread(() ->
                     new CustomToast().error("خطا در ایجاد خروجی\n پوشه ی دانلود دستگاه خود را تخلیه کنید.", Toast.LENGTH_SHORT));
-            return false;
         } catch (IOException e) {
             e.printStackTrace();
             activity.runOnUiThread(() ->
                     new CustomToast().error("خطا در پشتیبان گیری.\n".concat("علت خطا: ")
                             .concat(e.toString()), Toast.LENGTH_SHORT));
-            return false;
         }
-        return true;
     }
 
     @Override

@@ -30,7 +30,10 @@
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_add_point.xml" value="0.2265625" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_export.xml" value="0.136" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_location_point.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_login.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_main.xml" value="0.24375" />
+        <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_map_description.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_report.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_second.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/InitializeGis/app/src/main/res/layout/fragment_splash.xml" value="0.24375" />

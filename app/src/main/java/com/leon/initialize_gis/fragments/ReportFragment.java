@@ -9,11 +9,6 @@ import androidx.fragment.app.Fragment;
 
 import com.leon.initialize_gis.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReportFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ReportFragment extends Fragment {
 
 

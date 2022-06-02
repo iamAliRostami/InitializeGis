@@ -2,6 +2,8 @@ package com.leon.initialize_gis.fragments;
 
 import static com.leon.initialize_gis.enums.SharedReferenceKeys.PASSWORD;
 import static com.leon.initialize_gis.enums.SharedReferenceKeys.USERNAME;
+import static com.leon.initialize_gis.helpers.Constants.TRIAL_NUMBER;
+import static com.leon.initialize_gis.helpers.MyApplication.checkLicense;
 import static com.leon.initialize_gis.helpers.MyApplication.getAndroidVersion;
 import static com.leon.initialize_gis.helpers.MyApplication.getApplicationComponent;
 import static com.leon.initialize_gis.helpers.MyApplication.setActivityComponent;
@@ -23,6 +25,7 @@ import com.leon.initialize_gis.BuildConfig;
 import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.activities.MainActivity;
 import com.leon.initialize_gis.databinding.FragmentLoginBinding;
+import com.leon.initialize_gis.helpers.Constants;
 import com.leon.initialize_gis.interfaces.ISharedPreference;
 import com.leon.initialize_gis.utils.CustomToast;
 
@@ -124,10 +127,14 @@ public class LoginFragment extends Fragment {
             binding.editTextPassword.requestFocus();
             cancel = true;
         }
+        if (!cancel && !checkLicense()) {
+            new CustomToast().warning(getString(R.string.expired_trial));
+            cancel = true;
+        }
         if (!cancel) {
             username = binding.editTextUsername.getText().toString();
             password = binding.editTextPassword.getText().toString();
-            if (username.equals("user1") && password.equals("123456")) {
+            if (username.equals(Constants.USERNAME) && password.equals(Constants.PASSWORD)) {
                 if (binding.checkBoxSave.isChecked())
                     savePreference();
                 final Intent intent = new Intent(requireContext(), MainActivity.class);

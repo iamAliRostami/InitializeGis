@@ -42,7 +42,8 @@ public class MainActivity extends BaseActivity {
         setOnDrawerItemClick();
     }
 
-    public void displayView(int position) {
+    public void displayView(final int position) {
+        POSITION = position;
         final String tag = Integer.toString(position);
         if (getFragmentManager().findFragmentByTag(tag) != null && getFragmentManager().findFragmentByTag(tag).isVisible()) {
             return;
@@ -60,21 +61,18 @@ public class MainActivity extends BaseActivity {
     }
 
     private Fragment getFragment(int position) {
-        switch (position) {
-            case REPORT_FRAGMENT:
-                setTitle(R.string.reports);
-                return ReportFragment.newInstance();
-            case POINT_FRAGMENT:
-                setTitle(R.string.location);
-                return LocationPointFragment.newInstance();
-            case EXPORT_FRAGMENT:
-                setTitle(R.string.export);
-                return ExportFragment.newInstance();
-            case HOME_FRAGMENT:
-            default:
-                setTitle(R.string.home);
-                return HomeFragment.newInstance();
+        if (position == REPORT_FRAGMENT) {
+            setTitle(R.string.reports);
+            return ReportFragment.newInstance();
+        } else if (position == POINT_FRAGMENT) {
+            setTitle(R.string.location);
+            return LocationPointFragment.newInstance();
+        } else if (position == EXPORT_FRAGMENT) {
+            setTitle(R.string.export);
+            return ExportFragment.newInstance();
         }
+        setTitle(R.string.home);
+        return HomeFragment.newInstance();
     }
 
     private void setOnDrawerItemClick() {
@@ -90,8 +88,7 @@ public class MainActivity extends BaseActivity {
                             Constants.exit = true;
                             finishAffinity();
                         } else if (POSITION != position) {
-                            POSITION = position;
-                            displayView(POSITION);
+                            displayView(position);
                         }
                     }
 

@@ -5,11 +5,14 @@ import android.Manifest;
 public class Constants {
     public static boolean exit = false;
     public static int POSITION = 0;
+    public static int TRIAL_NUMBER = 10;
+    public static String  USERNAME = "user1";
+    public static String PASSWORD = "123456";
 
 
     public static final int HOME_FRAGMENT = 0;
-    public static final int REPORT_FRAGMENT = 1;
-    public static final int POINT_FRAGMENT = 2;
+    public static final int POINT_FRAGMENT = 1;
+    public static final int REPORT_FRAGMENT = 2;
     public static final int EXPORT_FRAGMENT = 3;
 
     public static final int EXIT_POSITION = 4;

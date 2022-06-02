@@ -41,6 +41,12 @@ android {
             debuggable true
             multiDexEnabled true
         }
+        licensed {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+            multiDexEnabled true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -56,7 +62,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     //Don't update
 //    implementation 'androidx.navigation:navigation-fragment:2.3.5'
@@ -85,6 +91,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.42'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.42'
 
+    implementation 'com.github.ali-sardari:PersianRangeDatePicker:1.2.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'gun0912.ted:tedpermission:1.0.3'
