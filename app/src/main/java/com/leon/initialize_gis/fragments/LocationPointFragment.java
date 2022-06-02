@@ -1,7 +1,6 @@
 package com.leon.initialize_gis.fragments;
 
 import static com.leon.initialize_gis.enums.MapType.VECTOR;
-import static com.leon.initialize_gis.helpers.Constants.TRIAL_NUMBER;
 import static com.leon.initialize_gis.helpers.MyApplication.checkLicense;
 import static com.leon.initialize_gis.helpers.MyApplication.getApplicationComponent;
 import static com.leon.initialize_gis.helpers.MyApplication.getLocationTracker;
@@ -19,7 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.esri.arcgisruntime.geometry.CoordinateFormatter;
+import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DefaultMapViewOnTouchListener;
@@ -30,14 +33,20 @@ import com.google.android.material.snackbar.Snackbar;
 import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.databinding.FragmentLocationPointBinding;
 import com.leon.initialize_gis.tables.UsersPoints;
+import com.leon.initialize_gis.utils.CalendarTool;
 import com.leon.initialize_gis.utils.CustomToast;
 import com.leon.initialize_gis.utils.gis.GoogleMapLayer;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class LocationPointFragment extends Fragment implements View.OnClickListener {
     private FragmentLocationPointBinding binding;
     private int pointLayer = -1;
     private boolean isLong;
+    private Point graphicPoint;
     private Point point;
 
     public LocationPointFragment() {
@@ -88,6 +97,7 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     @SuppressLint("ClickableViewAccessibility")
     private void onMapClickListener() {
         binding.mapView.setOnTouchListener(new DefaultMapViewOnTouchListener(requireContext(), binding.mapView) {
+
             @Override
             public void onLongPress(MotionEvent event) {
                 super.onLongPress(event);
@@ -101,8 +111,12 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
                         binding.mapView.getGraphicsOverlays().remove(pointLayer);
                         pointLayer = -1;
                     }
-                    point = mMapView.screenToLocation(new android.graphics.Point((int) e.getX(),
+                    graphicPoint = mMapView.screenToLocation(new android.graphics.Point((int) e.getX(),
                             (int) e.getY()));
+                    point = (Point) GeometryEngine.project(new Point((int) e.getX(), (int) e.getY())
+                            , SpatialReferences.getWgs84());
+
+
                     addPoint();
                 }
                 isLong = false;
@@ -117,7 +131,7 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
         final BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(requireContext(),
                 R.drawable.img_marker);
         final PictureMarkerSymbol symbol = new PictureMarkerSymbol(drawable);
-        final Graphic graphic = new Graphic(point, symbol);
+        final Graphic graphic = new Graphic(graphicPoint, symbol);
         graphicsOverlay.getGraphics().add(graphic);
         binding.mapView.getGraphicsOverlays().add(graphicsOverlay);
         this.pointLayer = binding.mapView.getGraphicsOverlays().size() - 1;
@@ -127,7 +141,7 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         final int id = view.getId();
         if (id == R.id.fab) {
-            if (point == null) {
+            if (graphicPoint == null) {
                 Snackbar.make(view, getString(R.string.define_location), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             } else if (binding.layout.getVisibility() == View.GONE) {
@@ -151,20 +165,47 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void insertPoint(final String eshterak) {
-        final UsersPoints userPoints = new UsersPoints();
-        userPoints.eshterak = eshterak;
-        userPoints.x = point.getX();
-        userPoints.y = point.getY();
-        //TODO
-        userPoints.date = eshterak;
-        userPoints.locationDateTime = eshterak;
-        userPoints.phoneDateTime = eshterak;
-        getApplicationComponent().MyDatabase().usersPointDao().insertUsersPoint(userPoints);
+        final UsersPoints userPoint = new UsersPoints();
+        userPoint.eshterak = eshterak;
+        getPoint(userPoint);
+        getDateInformation(userPoint);
+
+        getApplicationComponent().MyDatabase().usersPointDao().insertUsersPoint(userPoint);
         binding.mapView.getGraphicsOverlays().remove(pointLayer);
         pointLayer = -1;
-        point = null;
+        graphicPoint = null;
         new CustomToast().success(getString(R.string.added_succeed));
+    }
+
+    private void getPoint(final UsersPoints userPoint) {
+        final String coordinates = CoordinateFormatter.toLatitudeLongitude(point,
+                CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES, 4);
+        point = CoordinateFormatter.fromLatitudeLongitude(coordinates, SpatialReference.create(4326));
+        final String latLong = String.valueOf(CoordinateFormatter.toLatitudeLongitude(graphicPoint,
+                CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES, 10));
+        userPoint.x = CoordinateFormatter.fromLatitudeLongitude(latLong, null).getX();
+        userPoint.y = CoordinateFormatter.fromLatitudeLongitude(latLong, null).getY();
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private void getDateInformation(final UsersPoints userPoint) {
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy MM dd HH:mm:ss:SSS");
+        CalendarTool calendarTool = new CalendarTool();
+//        userPoint.date = calendarTool.getIranianDate();
+        final String month = calendarTool.getIranianMonth() > 9 ? String.valueOf(calendarTool.getIranianMonth()) :
+                "0".concat(String.valueOf(calendarTool.getIranianMonth()));
+        final String day = calendarTool.getIranianDay() > 9 ? String.valueOf(calendarTool.getIranianDay()) :
+                "0".concat(String.valueOf(calendarTool.getIranianDay()));
+        userPoint.date = String.valueOf(calendarTool.getIranianYear()).concat("/").concat(month)
+                .concat("/").concat(day);
+        userPoint.phoneDateTime = dateFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
+        if (getLocationTracker(requireActivity()).getCurrentLocation() != null)
+            userPoint.locationDateTime = dateFormatter.format(new Date(getLocationTracker(requireActivity()).getCurrentLocation().getTime()));
+
+        final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss:SSS");
+        userPoint.time = timeFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
     }
 
     @Override

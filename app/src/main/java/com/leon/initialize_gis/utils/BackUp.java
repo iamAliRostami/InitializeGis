@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.leon.initialize_gis.BuildConfig;
@@ -39,13 +40,14 @@ public class BackUp extends AsyncTask<Activity, Integer, Void> {
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + child);
         if (!exportDir.exists()) if (!exportDir.mkdirs()) return;
         final File file = new File(exportDir, tableName + "_" + BuildConfig.BUILD_TYPE + "_"
-                + BuildConfig.VERSION_CODE + extension);
+                + BuildConfig.VERSION_CODE + "." + extension);
         try {
             if (file.exists()) if (!file.delete()) return;
             if (!file.createNewFile()) return;
             final CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
-            final Cursor curCSV = getApplicationComponent().MyDatabase().query("SELECT * FROM "
-                    + tableName + " WHERE date BETWEEN " + startDate + " AND " + endDate, null);
+            final String query = "SELECT * FROM " + tableName + " WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "'";
+            Log.e("query", query);
+            final Cursor curCSV = getApplicationComponent().MyDatabase().query(query, null);
             csvWrite.writeNext(curCSV.getColumnNames());
             while (curCSV.moveToNext()) {
                 //Which column you want to export

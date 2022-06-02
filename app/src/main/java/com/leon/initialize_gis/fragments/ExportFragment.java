@@ -56,7 +56,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         if (id == R.id.button_upload) {
             if (validTextView(binding.textViewStart) && validTextView(binding.textViewEnd))
                 new BackUp(requireActivity(), binding.textViewStart.getText().toString(),
-                        binding.textViewStart.getText().toString(),
+                        binding.textViewEnd.getText().toString(),
                         items[binding.spinner.getSelectedItemPosition()]).execute(requireActivity());
         } else if (id == R.id.text_view_start || id == R.id.text_view_end) {
             showDatePicker(view);
