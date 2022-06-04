@@ -19,10 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.esri.arcgisruntime.geometry.CoordinateFormatter;
-import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DefaultMapViewOnTouchListener;
@@ -41,13 +38,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
 public class LocationPointFragment extends Fragment implements View.OnClickListener {
     private FragmentLocationPointBinding binding;
     private int pointLayer = -1;
     private boolean isLong;
     private Point graphicPoint;
-    private Point point;
 
     public LocationPointFragment() {
     }
@@ -84,7 +79,6 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     private void initializeBaseMap() {
         binding.mapView.setMap(new ArcGISMap());
         binding.mapView.getMap().getBasemap().getBaseLayers().add(new GoogleMapLayer().createLayer(VECTOR));
-//        binding.mapView.getMap().getBasemap().getBaseLayers().add(new OsmMapLayer().createLayer());
         AsyncTask.execute(() -> {
             while (getLocationTracker(requireActivity()).getLocation() == null)
                 binding.progressBar.setVisibility(View.VISIBLE);
@@ -113,10 +107,6 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
                     }
                     graphicPoint = mMapView.screenToLocation(new android.graphics.Point((int) e.getX(),
                             (int) e.getY()));
-                    point = (Point) GeometryEngine.project(new Point((int) e.getX(), (int) e.getY())
-                            , SpatialReferences.getWgs84());
-
-
                     addPoint();
                 }
                 isLong = false;
@@ -160,6 +150,9 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
                     insertPoint(eshterak);
                     binding.layout.getEditText().setText("");
                     binding.layout.setVisibility(View.GONE);
+                    binding.mapView.getGraphicsOverlays().remove(pointLayer);
+                    pointLayer = -1;
+                    graphicPoint = null;
                 }
             }
         }
@@ -171,18 +164,11 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
         userPoint.eshterak = eshterak;
         getPoint(userPoint);
         getDateInformation(userPoint);
-
         getApplicationComponent().MyDatabase().usersPointDao().insertUsersPoint(userPoint);
-        binding.mapView.getGraphicsOverlays().remove(pointLayer);
-        pointLayer = -1;
-        graphicPoint = null;
         new CustomToast().success(getString(R.string.added_succeed));
     }
 
     private void getPoint(final UsersPoints userPoint) {
-        final String coordinates = CoordinateFormatter.toLatitudeLongitude(point,
-                CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES, 4);
-        point = CoordinateFormatter.fromLatitudeLongitude(coordinates, SpatialReference.create(4326));
         final String latLong = String.valueOf(CoordinateFormatter.toLatitudeLongitude(graphicPoint,
                 CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES, 10));
         userPoint.x = CoordinateFormatter.fromLatitudeLongitude(latLong, null).getX();
@@ -193,17 +179,11 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     private void getDateInformation(final UsersPoints userPoint) {
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy MM dd HH:mm:ss:SSS");
         CalendarTool calendarTool = new CalendarTool();
-//        userPoint.date = calendarTool.getIranianDate();
-        final String month = calendarTool.getIranianMonth() > 9 ? String.valueOf(calendarTool.getIranianMonth()) :
-                "0".concat(String.valueOf(calendarTool.getIranianMonth()));
-        final String day = calendarTool.getIranianDay() > 9 ? String.valueOf(calendarTool.getIranianDay()) :
-                "0".concat(String.valueOf(calendarTool.getIranianDay()));
-        userPoint.date = String.valueOf(calendarTool.getIranianYear()).concat("/").concat(month)
-                .concat("/").concat(day);
+        userPoint.date = calendarTool.getIranianDate();
         userPoint.phoneDateTime = dateFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
         if (getLocationTracker(requireActivity()).getCurrentLocation() != null)
-            userPoint.locationDateTime = dateFormatter.format(new Date(getLocationTracker(requireActivity()).getCurrentLocation().getTime()));
-
+            userPoint.locationDateTime = dateFormatter.format(new Date(getLocationTracker(requireActivity())
+                    .getCurrentLocation().getTime()));
         final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss:SSS");
         userPoint.time = timeFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
     }

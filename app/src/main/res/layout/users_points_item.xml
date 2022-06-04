@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/low_dp"
+    app:cardCornerRadius="@dimen/low_dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linear_layout_users_point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/image_view_delete"
+            style="@style/UsersPointsImageView"
+            android:src="@android:drawable/ic_menu_delete"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view_location"
+            style="@style/UsersPointsImageView"
+            android:src="@drawable/tiny_img_location"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/text_view_date"
+            style="@style/UsersPointsTextView"
+            android:text="@string/date" />
+
+        <TextView
+            android:id="@+id/text_view_eshterak"
+            style="@style/UsersPointsTextView"
+            android:text="@string/eshterak" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

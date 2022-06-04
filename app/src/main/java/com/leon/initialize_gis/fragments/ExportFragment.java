@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.adapters.SpinnerCustomAdapter;
 import com.leon.initialize_gis.databinding.FragmentExportBinding;
-import com.leon.initialize_gis.utils.BackUp;
+import com.leon.initialize_gis.utils.ExportExcel;
 import com.sardari.daterangepicker.customviews.DateRangeCalendarView;
 import com.sardari.daterangepicker.dialog.DatePickerDialog;
 
@@ -55,7 +55,7 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         final int id = view.getId();
         if (id == R.id.button_upload) {
             if (validTextView(binding.textViewStart) && validTextView(binding.textViewEnd))
-                new BackUp(requireActivity(), binding.textViewStart.getText().toString(),
+                new ExportExcel(requireActivity(), binding.textViewStart.getText().toString(),
                         binding.textViewEnd.getText().toString(),
                         items[binding.spinner.getSelectedItemPosition()]).execute(requireActivity());
         } else if (id == R.id.text_view_start || id == R.id.text_view_end) {

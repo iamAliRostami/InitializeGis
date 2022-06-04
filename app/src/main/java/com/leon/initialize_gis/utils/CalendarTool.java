@@ -135,7 +135,9 @@ public class CalendarTool {
     }
 
     public String getIranianDate() {
-        return (irYear + "/" + irMonth + "/" + irDay);
+        final String month = irMonth > 9 ? String.valueOf(irMonth) : "0".concat(String.valueOf(irMonth));
+        final String day = irDay > 9 ? String.valueOf(irDay) : "0".concat(String.valueOf(irDay));
+        return (irYear + "/" + month + "/" + day);
     }
 
     public void setIranianDate(String jalaliAirDate) {

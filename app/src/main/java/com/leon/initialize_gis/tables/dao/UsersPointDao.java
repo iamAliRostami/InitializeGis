@@ -26,4 +26,7 @@ public interface UsersPointDao {
 
     @Query("select COUNT(*) From UsersPoints WHERE eshterak = :eshterak")
     int eshterakPointsCounter(String eshterak);
+
+    @Query("Delete From UsersPoints WHERE eshterak = :eshterak")
+    void deleteUserPoint(String eshterak);
 }
