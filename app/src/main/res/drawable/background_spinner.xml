@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/milky" />
-            <corners android:radius="@dimen/large_dp" />
+            <solid android:color="@color/gray_1" />
+            <corners android:radius="@dimen/huge_dp" />
         </shape>
     </item>
     <item
@@ -32,7 +32,7 @@
                 android:bottom="21dp"
                 android:gravity="center">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/milky" />
+                    <solid android:color="@color/gray_1" />
                 </shape>
             </item>
         </layer-list>

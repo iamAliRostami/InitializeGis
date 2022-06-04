@@ -3,6 +3,74 @@ plugins {
 }
 
 android {
+    packagingOptions {
+        exclude 'AndroidManifest.xml'
+
+        exclude 'lib/x86/libruntimecore.so'
+        exclude 'lib/x86_64/libruntimecore.so'
+        exclude 'lib/mips/libruntimecore.so'
+        exclude 'lib/mips64/libruntimecore.so'
+        exclude 'lib/armeabi/libruntimecore.so'
+        exclude 'lib/armeabi-v7a/libruntimecore.so'
+//        exclude 'lib/arm64-v8a/libruntimecore.so'
+
+        exclude 'lib/x86/libc++_shared.so'
+        exclude 'lib/x86_64/libc++_shared.so'
+        exclude 'lib/mips/libc++_shared.so'
+        exclude 'lib/mips64/libc++_shared.so'
+        exclude 'lib/armeabi/libc++_shared.so'
+        exclude 'lib/armeabi-v7a/libc++_shared.so'
+//        exclude 'lib/arm64-v8a/libc++_shared.so'
+
+        exclude 'lib/x86/libruntimecore_java.so'
+        exclude 'lib/x86_64/libruntimecore_java.so'
+        exclude 'lib/mips/libruntimecore_java.so'
+        exclude 'lib/mips64/libruntimecore_java.so'
+        exclude 'lib/armeabi/libruntimecore_java.so'
+        exclude 'lib/armeabi-v7a/libruntimecore_java.so'
+//        exclude 'lib/arm64-v8a/libruntimecore_java.so'
+
+        exclude 'lib/x86/libfilament-jni.so'
+        exclude 'lib/x86_64/libfilament-jni.so'
+        exclude 'lib/mips/libfilament-jni.so'
+        exclude 'lib/mips64/libfilament-jni.so'
+        exclude 'lib/armeabi/libfilament-jni.so'
+        exclude 'lib/armeabi-v7a/libfilament-jni.so'
+        exclude 'lib/arm64-v8a/libfilament_jni.so'
+
+        exclude 'lib/x86/libsceneform_animation.so'
+        exclude 'lib/x86_64/libsceneform_animation.so'
+        exclude 'lib/mips/libsceneform_animation.so'
+        exclude 'lib/mips64/libsceneform_animation.so'
+        exclude 'lib/armeabi/libsceneform_animation.so'
+        exclude 'lib/armeabi-v7a/libsceneform_animation.so'
+//        exclude 'lib/arm64-v8a/libsceneform_animation.so'
+
+        exclude 'lib/x86/libarsceneview_jni.so'
+        exclude 'lib/x86_64/libarsceneview_jni.so'
+        exclude 'lib/mips/libarsceneview_jni.so'
+        exclude 'lib/mips64/libarsceneview_jni.so'
+        exclude 'lib/armeabi/libarsceneview_jni.so'
+        exclude 'lib/armeabi-v7a/libarsceneview_jni.so'
+//        exclude 'lib/arm64-v8a/libarsceneview_jni.so'
+
+        exclude 'lib/x86/libarcore_sdk_jni.so'
+        exclude 'lib/x86_64/libarcore_sdk_jni.so'
+        exclude 'lib/mips/libarcore_sdk_jni.so'
+        exclude 'lib/mips64/libarcore_sdk_jni.so'
+        exclude 'lib/armeabi/libarcore_sdk_jni.so'
+        exclude 'lib/armeabi-v7a/libarcore_sdk_jni.so'
+//        exclude 'lib/arm64-v8a/libarcore_sdk_jni.so'
+
+        exclude 'lib/x86/libarcore_sdk_c.so'
+        exclude 'lib/x86_64/libarcore_sdk_c.so'
+        exclude 'lib/mips/libarcore_sdk_c.so'
+        exclude 'lib/mips64/libarcore_sdk_c.so'
+        exclude 'lib/armeabi/libarcore_sdk_c.so'
+        exclude 'lib/armeabi-v7a/libarcore_sdk_c.so'
+        exclude 'lib/arm64-v8a/libarcore_sdk_c.so'
+    }
+
     signingConfigs {
         release {
             storeFile file('D:/Keys/MyFourthKey.jks')
@@ -64,9 +132,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    //Don't update
-//    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-//    implementation 'androidx.navigation:navigation-ui:2.3.5'
+
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
@@ -98,32 +164,10 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
     implementation 'com.github.GrenderG:Toasty:1.5.0'
 
-//    System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl")
-//    System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl")
-//    System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl")
 //    implementation 'org.apache.poi:poi-ooxml:3.12'
 //    implementation 'org.apache.poi:poi:3.12'
 //    implementation 'org.apache.poi:poi:5.2.2'
 
-
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-//    implementation "androidx.paging:paging-runtime:3.1.1"
-//    // alternatively - without Android dependencies for tests
-//    testImplementation "androidx.paging:paging-common:3.1.1"
-//    // optional - RxJava2 support
-//    implementation "androidx.paging:paging-rxjava2:3.1.1"
-//    // optional - RxJava3 support
-//    implementation "androidx.paging:paging-rxjava3:3.1.1"
-//    // optional - Guava ListenableFuture support
-//    implementation "androidx.paging:paging-guava:3.1.1"
-//    // Jetpack Compose Integration
-//    implementation "androidx.paging:paging-compose:1.0.0"
-
-
-//    implementation ('com.yandex.android:mobmetricalib:5.0.0'){
-//        exclude group: 'com.google.ar:core', module: 'com.android.installreferrer:installreferrer'
-//    }
-//    implementation 'com.yandex.android:mobmetricalib:5.0.0'
-//    implementation 'com.yandex.android:mobmetricalib-ndk-crashes:1.1.0'
 }

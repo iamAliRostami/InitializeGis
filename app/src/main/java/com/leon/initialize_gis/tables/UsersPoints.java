@@ -5,10 +5,6 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.esri.arcgisruntime.geometry.CoordinateFormatter;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReference;
-
 @Entity(tableName = "UsersPoints", indices = @Index(value = {"id"}, unique = true))
 public class UsersPoints {
 

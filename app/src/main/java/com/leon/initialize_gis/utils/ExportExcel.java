@@ -116,8 +116,6 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             cursor.close();
             error = false;
             return file.getAbsolutePath();
-        } catch (FileNotFoundException e) {
-            return "خطا در ایجاد خروجی\n پوشه ی دانلود دستگاه خود را تخلیه کنید.";
         } catch (IOException e) {
             return "خطا در ایجاد خروجی.\n".concat("علت خطا: ").concat(e.toString());
         }
@@ -214,7 +212,7 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             final XSSFSheet sheet = workBook.createSheet(tableName + "_" + child);
             String currentLine;
             int RowNum = 0;
-            BufferedReader br = new BufferedReader(new FileReader(csvFileAddress));
+            final BufferedReader br = new BufferedReader(new FileReader(csvFileAddress));
             while ((currentLine = br.readLine()) != null) {
                 String[] str = currentLine.split(",");
                 RowNum++;
@@ -224,7 +222,7 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
                 }
             }
 
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            final FileOutputStream fileOutputStream = new FileOutputStream(file);
             workBook.write(fileOutputStream);
             fileOutputStream.close();
             return file.getAbsolutePath();

@@ -142,7 +142,7 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
                     binding.layout.getEditText().setError(getString(R.string.error_empty));
                     binding.layout.getEditText().requestFocus();
                 } else if (getApplicationComponent().MyDatabase().usersPointDao().eshterakPointsCounter(eshterak) > 0) {
-                    binding.layout.getEditText().setError(getString(R.string.repeatitive_eshterak));
+                    binding.layout.getEditText().setError(getString(R.string.repetitive_eshterak));
                     binding.layout.getEditText().requestFocus();
                 } else if (!checkLicense()) {
                     new CustomToast().warning(getString(R.string.expired_trial));

@@ -23,7 +23,15 @@ public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog
     private static final String KEY_TYPED_TEXT = "key_typed_text";
 
     @SuppressLint("StaticFieldLeak")
-    private static EditText editText1, editText2, editText3, editText4, editText5;
+    private static EditText editText1;
+    @SuppressLint("StaticFieldLeak")
+    private static EditText editText2;
+    @SuppressLint("StaticFieldLeak")
+    private static EditText editText3;
+    @SuppressLint("StaticFieldLeak")
+    private static EditText editText4;
+    @SuppressLint("StaticFieldLeak")
+    private static EditText editText5;
     private final TextView errorMessage;
     private final TextView confirmButton;
     private final TextView negativeButton;

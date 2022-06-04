@@ -5,7 +5,7 @@ import android.Manifest;
 public class Constants {
     public static boolean exit = false;
     public static int POSITION = 0;
-    public static int TRIAL_NUMBER = 100;
+    public static final int TRIAL_NUMBER = 100;
     public static String  USERNAME = "user1";
     public static String PASSWORD = "123456";
 

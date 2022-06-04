@@ -2,7 +2,6 @@ package com.leon.initialize_gis.fragments;
 
 import static com.leon.initialize_gis.enums.SharedReferenceKeys.PASSWORD;
 import static com.leon.initialize_gis.enums.SharedReferenceKeys.USERNAME;
-import static com.leon.initialize_gis.helpers.Constants.TRIAL_NUMBER;
 import static com.leon.initialize_gis.helpers.MyApplication.checkLicense;
 import static com.leon.initialize_gis.helpers.MyApplication.getAndroidVersion;
 import static com.leon.initialize_gis.helpers.MyApplication.getApplicationComponent;

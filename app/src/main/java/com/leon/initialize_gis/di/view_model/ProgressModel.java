@@ -26,8 +26,8 @@ public final class ProgressModel {
         return instance;
     }
 
-    public Dialog show(Context context) {
-        return show(context, "");
+    public void show(Context context) {
+        show(context, "");
     }
 
     public Dialog show(Context context, CharSequence title) {
@@ -40,8 +40,8 @@ public final class ProgressModel {
                         Toast.LENGTH_LONG));
     }
 
-    public Dialog show(Context context, boolean cancelable) {
-        return show(context, context.getString(R.string.waiting), cancelable, dialog ->
+    public void show(Context context, boolean cancelable) {
+        show(context, context.getString(R.string.waiting), cancelable, dialog ->
                 new CustomToast().warning(context.getString(R.string.canceled), Toast.LENGTH_LONG));
     }
 

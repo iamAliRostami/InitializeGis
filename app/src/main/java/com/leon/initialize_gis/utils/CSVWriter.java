@@ -1,6 +1,5 @@
 package com.leon.initialize_gis.utils;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
@@ -109,18 +108,16 @@ public class CSVWriter {
     /**
      * Flush underlying stream to writer.
      *
-     * @throws IOException if bad things happen
      */
-    public void flush() throws IOException {
+    public void flush() {
         pw.flush();
     }
 
     /**
      * Close the underlying stream writer flushing any buffered content.
      *
-     * @throws IOException if bad things happen
      */
-    public void close() throws IOException {
+    public void close() {
         pw.flush();
         pw.close();
     }

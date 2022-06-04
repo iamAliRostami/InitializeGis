@@ -1,12 +1,12 @@
 package com.leon.initialize_gis.enums;
 
 public enum SharedReferenceNames {
-    ACCOUNT("com.app.leon.estimate_new.account_info");
+    ACCOUNT();
 
     private final String value;
 
-    SharedReferenceNames(final String newValue) {
-        value = newValue;
+    SharedReferenceNames() {
+        value = "com.app.leon.estimate_new.account_info";
     }
 
     public String getValue() {

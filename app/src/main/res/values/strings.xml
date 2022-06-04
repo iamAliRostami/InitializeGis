@@ -63,10 +63,12 @@
 
     <string name="save_format_name_melli">yyyyMMdd_HHmmss_SSS</string>
     <string name="eshterak">اشتراک</string>
-    <string name="repeatitive_eshterak">اشتراک تکراری است</string>
+    <string name="repetitive_eshterak">اشتراک تکراری است</string>
     <string name="expired_trial">مهلت استفاده از نسخه ی رایگان به اتمام رسیده، نسبت به تهیه ی تجاری اقدام فرمایید</string>
     <string name="define_location">محل اشتراک را روی نقشه مشخص نمایید</string>
     <string name="added_succeed">با موفقیت اضافه شد</string>
     <string name="not_found_record">موردی یافت نشد.</string>
     <string name="search">جستجو</string>
+    <string name="export_format">فرمت خروجی</string>
+    <string name="create_export">ایجاد خروجی</string>
 </resources>

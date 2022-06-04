@@ -142,9 +142,8 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
         return (T) this;
     }
 
-    public T setCancelable(boolean cancelable) {
+    public void setCancelable(boolean cancelable) {
         dialog.setCancelable(cancelable);
-        return (T) this;
     }
 
     public T setSavedInstanceState(Bundle savedInstanceState) {
