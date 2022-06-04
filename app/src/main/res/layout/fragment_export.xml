@@ -102,7 +102,7 @@
         android:layout_marginLeft="@dimen/large_dp"
         android:layout_marginRight="@dimen/large_dp"
         android:layout_marginBottom="@dimen/low_dp"
-        android:background="@drawable/border_yellow_1"
+        android:background="@drawable/border"
         android:text="@string/create_export"
         android:textColor="@color/text_color_light"
         android:textSize="@dimen/text_size_medium"
