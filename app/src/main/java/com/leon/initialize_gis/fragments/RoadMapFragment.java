@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -74,7 +75,7 @@ public class RoadMapFragment extends DialogFragment {
         final BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(requireContext(),
                 R.drawable.img_marker);
         final PictureMarkerSymbol symbol = new PictureMarkerSymbol(drawable);
-        final Point graphicPoint = new Point(longitude, latitude);
+        final Point graphicPoint = new Point(longitude, latitude, SpatialReferences.getWgs84());
         final Graphic graphic = new Graphic(graphicPoint, symbol);
         graphicsOverlay.getGraphics().add(graphic);
         binding.mapView.getGraphicsOverlays().add(graphicsOverlay);

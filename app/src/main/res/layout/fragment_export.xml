@@ -6,7 +6,6 @@
     android:padding="@dimen/large_dp"
     tools:context=".fragments.ExportFragment">
 
-
     <ImageView
         android:id="@+id/imageViewUpload"
         android:layout_width="match_parent"
@@ -22,10 +21,12 @@
         android:layout_above="@id/linear_layout_from"
         android:layout_marginLeft="@dimen/large_dp"
         android:layout_marginRight="@dimen/large_dp"
+        android:layout_marginBottom="@dimen/low_dp"
         android:background="@drawable/border_gray_2">
 
         <Spinner
             android:id="@+id/spinner"
+            android:padding="@dimen/low_dp"
             style="@style/Spinner"
             tools:listitem="@layout/item_dropdown_menu" />
     </RelativeLayout>
@@ -35,12 +36,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/linear_layout_end"
+        android:layout_marginLeft="@dimen/large_dp"
+        android:layout_marginRight="@dimen/large_dp"
+        android:layout_marginBottom="@dimen/low_dp"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:padding="@dimen/low_dp"
             android:text="@string/from"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
@@ -48,7 +53,6 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_start"
             style="@style/InputPlace"
-            android:layout_margin="@dimen/low_dp"
             android:maxLength="10"
             android:padding="@dimen/low_dp"
             android:textSize="@dimen/text_size_large" />
@@ -60,20 +64,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/button_upload"
+        android:layout_marginLeft="@dimen/large_dp"
+        android:layout_marginRight="@dimen/large_dp"
+        android:layout_marginBottom="@dimen/low_dp"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:padding="@dimen/low_dp"
             android:text="@string/end"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_end"
             style="@style/InputPlace"
-            android:layout_margin="@dimen/low_dp"
             android:maxLength="10"
             android:padding="@dimen/low_dp"
             android:textSize="@dimen/text_size_large" />
@@ -84,7 +91,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/large_dp"
+        android:layout_marginLeft="@dimen/large_dp"
+        android:layout_marginRight="@dimen/large_dp"
+        android:layout_marginBottom="@dimen/low_dp"
         android:background="@drawable/border_yellow_1"
         android:text="@string/export"
         android:textColor="@color/text_color_light"
