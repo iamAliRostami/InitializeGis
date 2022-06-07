@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
@@ -91,5 +92,12 @@ public class PermissionManager {
     public static void forceClose(Activity activity) {
         new CustomToast().error(activity.getString(R.string.permission_not_completed));
         activity.finish();
+    }
+
+    public static boolean checkNetwork(Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return (connectivityManager.getActiveNetworkInfo() != null &&
+                connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting());
     }
 }

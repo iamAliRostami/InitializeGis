@@ -122,7 +122,7 @@
         android:layout_below="@id/button_login"
         android:layout_marginTop="@dimen/low_dp"
         android:layout_marginBottom="@dimen/low_dp"
-        android:src="@drawable/img_login_logo"
+        android:src="@drawable/img_splash"
         tools:ignore="ContentDescription" />
 
     <TextView

@@ -8,6 +8,7 @@ import static com.leon.initialize_gis.helpers.MyApplication.getApplicationCompon
 import static com.leon.initialize_gis.helpers.MyApplication.setActivityComponent;
 import static com.leon.initialize_gis.utils.Crypto.decrypt;
 import static com.leon.initialize_gis.utils.Crypto.encrypt;
+import static com.leon.initialize_gis.utils.PermissionManager.checkNetwork;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -54,11 +56,14 @@ public class LoginFragment extends Fragment {
     }
 
     private void initialize() {
+        if (!checkNetwork(requireContext()))
+            new CustomToast().warning(getString(R.string.turn_internet_on), Toast.LENGTH_LONG);
+
         binding.textViewVersion.setText(getString(R.string.version).concat(" ").concat(getAndroidVersion())
                 .concat(" *** ").concat(BuildConfig.VERSION_NAME));
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
-        binding.imageViewLogo.setImageResource(R.drawable.img_login_logo);
+        binding.imageViewLogo.setImageResource(R.drawable.img_splash);
         binding.imageViewPerson.setImageResource(R.drawable.img_profile);
         binding.imageViewUsername.setImageResource(R.drawable.img_user);
 

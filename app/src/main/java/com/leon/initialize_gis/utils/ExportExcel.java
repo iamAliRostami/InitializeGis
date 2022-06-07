@@ -159,20 +159,17 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
                         final HSSFCell cell = row.createCell((short) p);
                         String data = ardata.get(p).toString();
                         if (data.startsWith("=")) {
-//                            cell.setCellType(CellType.STRING);
                             cell.setCellType(Cell.CELL_TYPE_STRING);
                             data = data.replaceAll("\"", "");
                             data = data.replaceAll("=", "");
                             cell.setCellValue(data);
                         } else if (data.startsWith("\"")) {
                             data = data.replaceAll("\"", "");
-//                            cell.setCellType(CellType.STRING);
                             cell.setCellType(Cell.CELL_TYPE_STRING);
                             cell.setCellValue(data);
                         } else {
                             data = data.replaceAll("\"", "");
                             cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-//                            cell.setCellType(CellType.NUMERIC);
                             cell.setCellValue(data);
                         }
                     }

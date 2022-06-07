@@ -6,6 +6,8 @@ import static com.leon.initialize_gis.helpers.MyApplication.getApplicationCompon
 import static com.leon.initialize_gis.helpers.MyApplication.getLocationTracker;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -79,13 +82,18 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     private void initializeBaseMap() {
         binding.mapView.setMap(new ArcGISMap());
         binding.mapView.getMap().getBasemap().getBaseLayers().add(new GoogleMapLayer().createLayer(VECTOR));
-        AsyncTask.execute(() -> {
-            while (getLocationTracker(requireActivity()).getLocation() == null)
-                binding.progressBar.setVisibility(View.VISIBLE);
-            binding.mapView.setViewpoint(new Viewpoint(getLocationTracker(requireActivity()).getLatitude()
-                    , getLocationTracker(requireActivity()).getLongitude(), 3600));
-            requireActivity().runOnUiThread(() -> binding.progressBar.setVisibility(View.GONE));
-        });
+        try {
+            AsyncTask.execute(() -> {
+                while (getLocationTracker(requireActivity()).getLocation() == null)
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                binding.mapView.setViewpoint(new Viewpoint(getLocationTracker(requireActivity()).getLatitude()
+                        , getLocationTracker(requireActivity()).getLongitude(), 3600));
+                requireActivity().runOnUiThread(() -> binding.progressBar.setVisibility(View.GONE));
+            });
+        } catch (Exception e) {
+            new CustomToast().warning(e.toString());
+        }
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -134,28 +142,45 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
             if (graphicPoint == null) {
                 Snackbar.make(view, getString(R.string.define_location), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-            } else if (binding.layout.getVisibility() == View.GONE) {
-                binding.layout.setVisibility(View.VISIBLE);
             } else if (binding.layout.getEditText() != null) {
-                final String eshterak = binding.layout.getEditText().getText().toString();
-                if (eshterak.isEmpty()) {
-                    binding.layout.getEditText().setError(getString(R.string.error_empty));
+                if (binding.layout.getVisibility() == View.GONE) {
+                    binding.layout.setVisibility(View.VISIBLE);
+                    showKeyboard();
                     binding.layout.getEditText().requestFocus();
-                } else if (getApplicationComponent().MyDatabase().usersPointDao().eshterakPointsCounter(eshterak) > 0) {
-                    binding.layout.getEditText().setError(getString(R.string.repetitive_eshterak));
-                    binding.layout.getEditText().requestFocus();
-                } else if (!checkLicense()) {
-                    new CustomToast().warning(getString(R.string.expired_trial));
                 } else {
-                    insertPoint(eshterak);
-                    binding.layout.getEditText().setText("");
-                    binding.layout.setVisibility(View.GONE);
-                    binding.mapView.getGraphicsOverlays().remove(pointLayer);
-                    pointLayer = -1;
-                    graphicPoint = null;
+                    final String eshterak = binding.layout.getEditText().getText().toString();
+                    if (eshterak.isEmpty()) {
+                        binding.layout.getEditText().setError(getString(R.string.error_empty));
+                        binding.layout.getEditText().requestFocus();
+                    } else if (getApplicationComponent().MyDatabase().usersPointDao().eshterakPointsCounter(eshterak) > 0) {
+                        binding.layout.getEditText().setError(getString(R.string.repetitive_eshterak));
+                        binding.layout.getEditText().requestFocus();
+                    } else if (!checkLicense()) {
+                        new CustomToast().warning(getString(R.string.expired_trial));
+                    } else {
+                        insertPoint(eshterak);
+                        binding.layout.getEditText().setText("");
+                        binding.layout.setVisibility(View.GONE);
+                        binding.mapView.getGraphicsOverlays().remove(pointLayer);
+                        pointLayer = -1;
+                        graphicPoint = null;
+                        hideKeyboard(view);
+                    }
                 }
             }
         }
+    }
+
+    private void hideKeyboard(final View view) {
+        InputMethodManager imm = (InputMethodManager) requireContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showKeyboard() {
+        InputMethodManager imm = (InputMethodManager) requireContext()
+                .getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
 
     @SuppressLint("SimpleDateFormat")

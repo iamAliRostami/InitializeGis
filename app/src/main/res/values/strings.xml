@@ -71,4 +71,5 @@
     <string name="search">جستجو</string>
     <string name="export_format">فرمت خروجی</string>
     <string name="create_export">ایجاد خروجی</string>
+    <string name="turn_internet_on">جهت استفاده ی بهتر از نقشه، اینترنت خود را روشن نمایید.</string>
 </resources>
