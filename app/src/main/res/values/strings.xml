@@ -68,8 +68,11 @@
     <string name="define_location">محل اشتراک را روی نقشه مشخص نمایید</string>
     <string name="added_succeed">با موفقیت اضافه شد</string>
     <string name="not_found_record">موردی یافت نشد.</string>
-    <string name="search">جستجو</string>
+    <string name="eshterak_search">جستجوی اشتراک</string>
     <string name="export_format">فرمت خروجی</string>
     <string name="create_export">ایجاد خروجی</string>
     <string name="turn_internet_on">جهت استفاده ی بهتر از نقشه، اینترنت خود را روشن نمایید.</string>
+    <string name="enter_file_name">نام فایل خروجی را وارد کنید</string>
+    <string name="dear_user">کاربر محترم</string>
+    <string name="file_name">نام فایل</string>
 </resources>

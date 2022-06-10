@@ -4,10 +4,6 @@ import android.content.Context;
 
 import com.leon.initialize_gis.R;
 
-
-/**
- * Created by yarolegovich on 16.04.2016.
- */
 public class LovelyProgressDialog extends AbsLovelyDialog<LovelyProgressDialog> {
 
     {

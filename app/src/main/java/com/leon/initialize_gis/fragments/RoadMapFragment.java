@@ -92,4 +92,9 @@ public class RoadMapFragment extends DialogFragment {
         }
         super.onResume();
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

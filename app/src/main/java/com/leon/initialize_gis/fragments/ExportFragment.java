@@ -1,11 +1,20 @@
 package com.leon.initialize_gis.fragments;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -13,8 +22,14 @@ import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.adapters.SpinnerCustomAdapter;
 import com.leon.initialize_gis.databinding.FragmentExportBinding;
 import com.leon.initialize_gis.utils.ExportExcel;
+import com.leon.initialize_gis.utils.custom_dialog.LovelyTextInputDialog;
 import com.sardari.daterangepicker.customviews.DateRangeCalendarView;
 import com.sardari.daterangepicker.dialog.DatePickerDialog;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import lib.folderpicker.FolderPicker;
 
 public class ExportFragment extends Fragment implements View.OnClickListener {
     private FragmentExportBinding binding;
@@ -54,11 +69,12 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         final int id = view.getId();
         if (id == R.id.button_upload) {
-            if (validTextView(binding.textViewStart) && validTextView(binding.textViewEnd))
-//                new CSVToExcelConverter(requireActivity()).execute();
-                new ExportExcel(requireActivity(), binding.textViewStart.getText().toString(),
-                        binding.textViewEnd.getText().toString(),
-                        items[binding.spinner.getSelectedItemPosition()]).execute(requireActivity());
+            if (validTextView(binding.textViewStart) && validTextView(binding.textViewEnd)) {
+                final Intent intent = new Intent(requireContext(), FolderPicker.class);
+                intent.putExtra("title", "پوشه ی خروجی (غیرسیستمی) را انتخاب کنید");
+                intent.putExtra("location", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+                directoryPickerResultLauncher.launch(intent);
+            }
         } else if (id == R.id.text_view_start || id == R.id.text_view_end) {
             showDatePicker(view);
         }
@@ -84,5 +100,51 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
             return false;
         }
         return true;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private final ActivityResultLauncher<Intent> directoryPickerResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            final String path = result.getData().getExtras().getString("data");
+                            insertCustomName(path);
+                        }
+                    });
+
+    private void insertCustomName(final String path) {
+        @SuppressLint("SimpleDateFormat") final String child =
+                (new SimpleDateFormat(getString(R.string.save_format_name_melli))).format(new Date());
+        final LovelyTextInputDialog lovelyTextInputDialog = new LovelyTextInputDialog(requireContext());
+        lovelyTextInputDialog.setTopColorRes(R.color.yellow)
+                .setTopTitleColorRes(R.color.white)
+                .setTopTitle(R.string.file_name)
+                .setTitle(R.string.dear_user)
+                .setMessage(getString(R.string.enter_file_name))
+                .setCancelable(false)
+                .setInputFilter(R.string.error_empty, text ->
+                        lovelyTextInputDialog.getEditTextNumber().getText().toString().isEmpty())
+                .setInitialInput("UsersPoints_".concat(child))
+                .setConfirmButton(R.string.confirm, text -> {
+                    final InputMethodManager imm = (InputMethodManager) requireContext()
+                            .getSystemService(INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    new ExportExcel(requireActivity(), binding.textViewStart.getText().toString(),
+                            binding.textViewEnd.getText().toString(),
+                            items[binding.spinner.getSelectedItemPosition()], path,
+                            lovelyTextInputDialog.getEditTextNumber().getText().toString().concat("."))
+                            .execute(requireActivity());
+                })
+                .setNegativeButton(R.string.close, v -> {
+                    final InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                });
+        lovelyTextInputDialog.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

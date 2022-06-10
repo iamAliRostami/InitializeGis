@@ -9,10 +9,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.widget.Toast;
 
-import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.di.view_model.ProgressModel;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -33,21 +31,23 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class ExportExcel extends AsyncTask<Activity, Integer, String> {
     private final ProgressModel progress;
     private final String startDate, endDate, extension;
     private boolean error = true;
+    private final String path, fileName;
 
-    public ExportExcel(Activity activity, String startDate, String endDate, String extension) {
+    public ExportExcel(Activity activity, String startDate, String endDate, String extension,
+                       String path, String fileName) {
         super();
         this.startDate = startDate;
         this.endDate = endDate;
         this.extension = extension;
+        this.path = path;
+        this.fileName = fileName;
         progress = getApplicationComponent().ProgressModel();
         progress.show(activity, false);
     }
@@ -59,11 +59,11 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
         while (cursor.moveToNext()) {
             if (cursor.getString(0).equals("UsersPoints")) {
                 if (extension.equals(CSV.getValue()))
-                    return exportDbToCSV(cursor.getString(0), activities[0]);
+                    return exportDbToCSV(cursor.getString(0));
                 else if (extension.equals(XLS.getValue()))
-                    return exportDbToXLS(cursor.getString(0), activities[0]);
+                    return exportDbToXLS(cursor.getString(0));
                 else if (extension.equals(XLSX.getValue()))
-                    return exportDbToXLSX(cursor.getString(0), activities[0]);
+                    return exportDbToXLSX(cursor.getString(0));
 
             }
         }
@@ -76,11 +76,12 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
         progress.getDialog().dismiss();
         if (result != null) {
             if (error)
-                new CustomToast().warning(result);
+                new CustomToast().warning(result, Toast.LENGTH_LONG);
             else
-                new CustomToast().success(result, Toast.LENGTH_SHORT);
+                new CustomToast().success("ایجاد فایل با موفقیت انجام شد. محل ذخیره:\n".concat(result),
+                        Toast.LENGTH_LONG);
         } else
-            new CustomToast().error("ایجاد خروجی با خطا مواجه شد، مجددا تلاش کنید.", Toast.LENGTH_SHORT);
+            new CustomToast().error("ایجاد خروجی با خطا مواجه شد، مجددا تلاش کنید.", Toast.LENGTH_LONG);
     }
 
     @Override
@@ -88,14 +89,10 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
         super.onProgressUpdate(values);
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private String exportDbToCSV(final String tableName, final Activity activity) {
-        final String child = (new SimpleDateFormat(activity.getString(R.string.save_format_name_melli)))
-                .format(new Date());
-        final File exportDir = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/");
+    private String exportDbToCSV(final String tableName) {
+        final File exportDir = new File(path, "/");
         if (!exportDir.exists()) if (!exportDir.mkdirs()) return null;
-        final File file = new File(exportDir, tableName + "_" + child + "." + CSV.getValue());
+        final File file = new File(exportDir, fileName + CSV.getValue());
         try {
             if (file.exists()) if (!file.delete()) return null;
             if (!file.createNewFile()) return null;
@@ -115,23 +112,21 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             csvWrite.close();
             cursor.close();
             error = false;
-            return file.getAbsolutePath();
+            return exportDir.getAbsolutePath();
         } catch (IOException e) {
             return "خطا در ایجاد خروجی.\n".concat("علت خطا: ").concat(e.toString());
         }
     }
 
     @SuppressLint("SimpleDateFormat")
-    private String exportDbToXLS(final String tableName, final Activity activity) {
-        final String csvFileAddress = exportDbToCSV(tableName, activity);
+    private String exportDbToXLS(final String tableName) {
+        final String csvFileAddress = exportDbToCSV(tableName);
         if (csvFileAddress == null) return null;
         ArrayList arList;
         ArrayList al;
-        final String child = (new SimpleDateFormat(activity.getString(R.string.save_format_name_melli))).format(new Date());
-        final File exportDir = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/");
+        final File exportDir = new File(path, "/");
         if (!exportDir.exists()) if (!exportDir.mkdirs()) return null;
-        final File file = new File(exportDir, tableName + "_" + child + "." + XLS.getValue());
+        final File file = new File(exportDir, fileName + XLS.getValue());
         try {
             if (file.exists()) if (!file.delete()) return null;
             if (!file.createNewFile()) return null;
@@ -151,7 +146,7 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             }
             try {
                 final HSSFWorkbook hwb = new HSSFWorkbook();
-                final HSSFSheet sheet = hwb.createSheet(tableName + "_" + child);
+                final HSSFSheet sheet = hwb.createSheet(tableName);
                 for (int k = 0; k < arList.size(); k++) {
                     final ArrayList ardata = (ArrayList) arList.get(k);
                     final HSSFRow row = sheet.createRow(k);
@@ -190,23 +185,19 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private String exportDbToXLSX(final String tableName, final Activity activity) {
-        final String csvFileAddress = exportDbToCSV(tableName, activity);
+    private String exportDbToXLSX(final String tableName) {
+        final String csvFileAddress = exportDbToCSV(tableName);
         if (csvFileAddress == null) return null;
-
-        final String child = (new SimpleDateFormat(activity.getString(R.string.save_format_name_melli))).format(new Date());
-        final File exportDir = new File(Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/");
+        final File exportDir = new File(path, "/");
         if (!exportDir.exists()) if (!exportDir.mkdirs()) return null;
-        final File file = new File(exportDir, tableName + "_" + child + "." + XLSX.getValue());
-
+        final File file = new File(exportDir, fileName + XLSX.getValue());
 
         try {
             if (file.exists()) if (!file.delete()) return null;
             if (!file.createNewFile()) return null;
 
             final XSSFWorkbook workBook = new XSSFWorkbook();
-            final XSSFSheet sheet = workBook.createSheet(tableName + "_" + child);
+            final XSSFSheet sheet = workBook.createSheet(tableName);
             String currentLine;
             int RowNum = 0;
             final BufferedReader br = new BufferedReader(new FileReader(csvFileAddress));
@@ -222,7 +213,7 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             final FileOutputStream fileOutputStream = new FileOutputStream(file);
             workBook.write(fileOutputStream);
             fileOutputStream.close();
-            return file.getAbsolutePath();
+            return exportDir.getAbsolutePath();
         } catch (FileNotFoundException e) {
             return "خطا در ایجاد خروجی\n پوشه ی دانلود دستگاه خود را تخلیه کنید.";
         } catch (IOException e) {
