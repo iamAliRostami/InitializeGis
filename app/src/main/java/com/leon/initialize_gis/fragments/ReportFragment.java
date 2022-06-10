@@ -99,7 +99,7 @@ public class ReportFragment extends Fragment {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if ((UsersPointsAdapter) binding.recyclerViewUsersPoints.getAdapter() != null) {
+                    if (binding.recyclerViewUsersPoints.getAdapter() != null) {
                         final String search = binding.layout.getEditText().getText().toString()
                                 .toLowerCase(Locale.getDefault());
                         ((UsersPointsAdapter) binding.recyclerViewUsersPoints.getAdapter()).filter(search);

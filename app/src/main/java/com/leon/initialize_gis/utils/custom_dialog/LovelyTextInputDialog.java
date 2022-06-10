@@ -7,11 +7,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.widget.AppCompatTextView;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.leon.initialize_gis.R;
 
 public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog> {
@@ -19,10 +21,10 @@ public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog
     private static final String KEY_HAS_ERROR = "key_has_error";
     private static final String KEY_TYPED_TEXT = "key_typed_text";
 
-    private final EditText editText1;
-    private final TextView errorMessage;
-    private final TextView confirmButton;
-    private final TextView negativeButton;
+    private final TextInputEditText editText1;
+    private final AppCompatTextView errorMessage;
+    private final MaterialButton confirmButton;
+    private final MaterialButton negativeButton;
 
     private TextFilter filter;
 

@@ -116,11 +116,11 @@ public class ExportFragment extends Fragment implements View.OnClickListener {
         @SuppressLint("SimpleDateFormat") final String child =
                 (new SimpleDateFormat(getString(R.string.save_format_name_melli))).format(new Date());
         final LovelyTextInputDialog lovelyTextInputDialog = new LovelyTextInputDialog(requireContext());
-        lovelyTextInputDialog.setTopColorRes(R.color.yellow)
+        lovelyTextInputDialog/*.setTopColorRes(R.color.yellow)
                 .setTopTitleColorRes(R.color.white)
                 .setTopTitle(R.string.file_name)
-                .setTitle(R.string.dear_user)
-                .setMessage(getString(R.string.enter_file_name))
+                .setTitle()
+                .setMessage()*/
                 .setCancelable(false)
                 .setInputFilter(R.string.error_empty, text ->
                         lovelyTextInputDialog.getEditTextNumber().getText().toString().isEmpty())

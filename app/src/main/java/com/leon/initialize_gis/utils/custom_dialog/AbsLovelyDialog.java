@@ -63,11 +63,17 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
         messageView.setText(message);
         return (T) this;
     }
-
+    public T setMessage() {
+        messageView.setVisibility(View.GONE);
+        return (T) this;
+    }
     public T setTitle(@StringRes int title) {
         return setTitle(string(title));
     }
-
+    public T setTitle() {
+        titleView.setVisibility(View.GONE);
+        return  (T) this;
+    }
     public T setTopTitle(@StringRes int title) {
         return setTopTitle(string(title));
     }

@@ -1,50 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:orientation="vertical"
     tools:ignore="UnusedAttribute">
 
-    <include layout="@layout/dialog_view_color_area" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="12dp" />
 
-            <include layout="@layout/dialog_view_title_and_message" />
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/medium_dp"
+                android:hint="@string/enter_file_name"
                 android:weightSum="5">
 
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_file_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/low_dp"
-                    android:layout_marginRight="@dimen/low_dp"
                     android:gravity="center"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="Autofill,LabelFor" />
-            </LinearLayout>
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ld_error_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,11 +44,8 @@
                 android:textColor="@color/red"
                 android:visibility="gone" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="8dp" />
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 
     <LinearLayout
@@ -68,34 +56,28 @@
         android:orientation="horizontal"
         android:weightSum="2.5">
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_confirm"
-            style="@style/DialogButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/low_dp"
             android:layout_weight="1"
-            android:background="@drawable/border_green_1"
-            android:gravity="center"
             android:text="@string/confirm"
-            android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_negative"
-            style="@style/DialogButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/low_dp"
             android:layout_weight="1"
-            android:background="@drawable/border_red_1"
-            android:gravity="center"
             android:text="@string/cancel"
-            android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
     </LinearLayout>
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
