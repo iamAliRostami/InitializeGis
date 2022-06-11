@@ -115,15 +115,6 @@
         android:background="@drawable/border"
         android:text="@string/login" />
 
-    <ImageView
-        android:id="@+id/image_view_logo"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_below="@id/button_login"
-        android:layout_marginTop="@dimen/low_dp"
-        android:layout_marginBottom="@dimen/low_dp"
-        android:src="@drawable/img_splash"
-        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/text_view_version"

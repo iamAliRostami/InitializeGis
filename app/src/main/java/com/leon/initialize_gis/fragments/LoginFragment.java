@@ -63,7 +63,6 @@ public class LoginFragment extends Fragment {
                 .concat(" *** ").concat(BuildConfig.VERSION_NAME));
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
-        binding.imageViewLogo.setImageResource(R.drawable.img_splash);
         binding.imageViewPerson.setImageResource(R.drawable.img_profile);
         binding.imageViewUsername.setImageResource(R.drawable.img_user);
 

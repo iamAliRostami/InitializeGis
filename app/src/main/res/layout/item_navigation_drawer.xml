@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relative_layout_background"
-    android:layout_width="150dp"
-    android:layout_height="wrap_content">
+    android:id="@+id/linear_layout_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/low_dp">
 
     <ImageView
         android:id="@+id/image_view_icon"
-        android:layout_width="150dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_margin="@dimen/low_dp"
+        android:src="@drawable/tiny_img_home"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/text_view_title"
         style="@style/HomeTitles"
         android:layout_below="@id/image_view_icon" />
-</RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
