@@ -30,14 +30,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.databinding.FragmentLocationPointBinding;
 import com.leon.initialize_gis.tables.UsersPoints;
-import com.leon.initialize_gis.utils.CalendarTool;
 import com.leon.initialize_gis.utils.CustomToast;
 import com.leon.initialize_gis.utils.gis.GisTools;
 import com.leon.initialize_gis.utils.gis.GoogleMapLayer;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class LocationPointFragment extends Fragment implements View.OnClickListener {
     private FragmentLocationPointBinding binding;
@@ -80,8 +75,6 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     private void initializeBaseMap() {
         binding.mapView.setMap(new ArcGISMap());
         binding.mapView.getMap().getBasemap().getBaseLayers().add(new GoogleMapLayer().createLayer(VECTOR));
-//        binding.mapView.setViewpointAsync(new Viewpoint(getLocationTracker(requireActivity()).getLatitude()
-//                , getLocationTracker(requireActivity()).getLongitude(), 3600));
         try {
             AsyncTask.execute(() -> {
                 while (getLocationTracker(requireActivity()).getLocation() == null)
@@ -135,8 +128,8 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
 
     private void addPoint() {
         final GraphicsOverlay graphicOverlay = new GraphicsOverlay();
-        graphicOverlay.getGraphics().add(createGraphicPicturePoint(graphicPoint.getY(), graphicPoint.getX(),
-                R.drawable.img_marker));
+        graphicOverlay.getGraphics().add(createGraphicPicturePoint(graphicPoint.getY(),
+                graphicPoint.getX(), R.drawable.img_marker));
         binding.mapView.getGraphicsOverlays().add(graphicOverlay);
         pointLayer = binding.mapView.getGraphicsOverlays().size() - 1;
     }
@@ -195,23 +188,9 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
         userPoint.eshterak = eshterak;
         userPoint.x = graphicPoint.getX();
         userPoint.y = graphicPoint.getY();
-        getDateInformation(userPoint);
+        userPoint.getDateInformation(getLocationTracker(requireActivity()));
         getApplicationComponent().MyDatabase().usersPointDao().insertUsersPoint(userPoint);
         new CustomToast().success(getString(R.string.added_succeed));
-    }
-
-
-    @SuppressLint("SimpleDateFormat")
-    private void getDateInformation(final UsersPoints userPoint) {
-        final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy MM dd HH:mm:ss:SSS");
-        final CalendarTool calendarTool = new CalendarTool();
-        userPoint.date = calendarTool.getIranianDate();
-        userPoint.phoneDateTime = dateFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
-        if (getLocationTracker(requireActivity()).getCurrentLocation() != null)
-            userPoint.locationDateTime = dateFormatter.format(new Date(getLocationTracker(requireActivity())
-                    .getCurrentLocation().getTime()));
-        final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss:SSS");
-        userPoint.time = timeFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
     }
 
     @Override
@@ -219,5 +198,4 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
         super.onDestroyView();
         binding = null;
     }
-
 }
