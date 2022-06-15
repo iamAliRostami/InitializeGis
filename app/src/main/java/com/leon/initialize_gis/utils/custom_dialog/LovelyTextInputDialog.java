@@ -191,7 +191,6 @@ public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog
             if (wrapped != null) {
                 wrapped.onTextInputConfirmed(text);
             }
-            Log.e("status", "out");
             dismiss();
         }
     }

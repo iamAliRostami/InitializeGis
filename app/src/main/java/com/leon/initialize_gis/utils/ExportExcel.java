@@ -112,8 +112,9 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             csvWrite.close();
             cursor.close();
             error = false;
-            return exportDir.getAbsolutePath();
+            return extension.equals(CSV.getValue()) ? exportDir.getAbsolutePath() : file.getAbsolutePath();
         } catch (IOException e) {
+            e.printStackTrace();
             return "خطا در ایجاد خروجی.\n".concat("علت خطا: ").concat(e.toString());
         }
     }
@@ -121,6 +122,7 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
     @SuppressLint("SimpleDateFormat")
     private String exportDbToXLS(final String tableName) {
         final String csvFileAddress = exportDbToCSV(tableName);
+        error = true;
         if (csvFileAddress == null) return null;
         ArrayList arList;
         ArrayList al;
@@ -173,13 +175,16 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
                 hwb.write(fileOut);
                 fileOut.close();
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return "خطا در ایجاد خروجی.\n".concat("علت خطا: ").concat(ex.toString());
             }
             error = false;
             return exportDir.getAbsolutePath();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             return "خطا در ایجاد خروجی\n پوشه ی دانلود دستگاه خود را تخلیه کنید.";
         } catch (IOException e) {
+            e.printStackTrace();
             return "خطا در ایجاد خروجی.\n".concat("علت خطا: ").concat(e.toString());
         }
     }
@@ -187,6 +192,7 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
     @SuppressLint("SimpleDateFormat")
     private String exportDbToXLSX(final String tableName) {
         final String csvFileAddress = exportDbToCSV(tableName);
+        error = true;
         if (csvFileAddress == null) return null;
         final File exportDir = new File(path, "/");
         if (!exportDir.exists()) if (!exportDir.mkdirs()) return null;
@@ -213,12 +219,16 @@ public class ExportExcel extends AsyncTask<Activity, Integer, String> {
             final FileOutputStream fileOutputStream = new FileOutputStream(file);
             workBook.write(fileOutputStream);
             fileOutputStream.close();
+            error = false;
             return exportDir.getAbsolutePath();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             return "خطا در ایجاد خروجی\n پوشه ی دانلود دستگاه خود را تخلیه کنید.";
         } catch (IOException e) {
+            e.printStackTrace();
             return "خطا در ایجاد خروجی.\n".concat("علت خطا: ").concat(e.toString());
         } catch (Exception ex) {
+            ex.printStackTrace();
             return ex.toString();
         }
     }

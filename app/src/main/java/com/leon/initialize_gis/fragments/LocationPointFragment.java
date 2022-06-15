@@ -4,11 +4,12 @@ import static com.leon.initialize_gis.enums.MapType.VECTOR;
 import static com.leon.initialize_gis.helpers.MyApplication.checkLicense;
 import static com.leon.initialize_gis.helpers.MyApplication.getApplicationComponent;
 import static com.leon.initialize_gis.helpers.MyApplication.getLocationTracker;
+import static com.leon.initialize_gis.utils.gis.GisTools.createGraphicPicturePoint;
+import static com.leon.initialize_gis.utils.gis.GisTools.createGraphicTextPoint;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,23 +19,20 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.esri.arcgisruntime.geometry.CoordinateFormatter;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DefaultMapViewOnTouchListener;
-import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.google.android.material.snackbar.Snackbar;
 import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.databinding.FragmentLocationPointBinding;
 import com.leon.initialize_gis.tables.UsersPoints;
 import com.leon.initialize_gis.utils.CalendarTool;
 import com.leon.initialize_gis.utils.CustomToast;
+import com.leon.initialize_gis.utils.gis.GisTools;
 import com.leon.initialize_gis.utils.gis.GoogleMapLayer;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +41,7 @@ import java.util.Date;
 
 public class LocationPointFragment extends Fragment implements View.OnClickListener {
     private FragmentLocationPointBinding binding;
-    private int pointLayer = -1;
+    private int pointLayer = -1, currentLocationLayer;
     private boolean isLong;
     private Point graphicPoint;
 
@@ -82,57 +80,65 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     private void initializeBaseMap() {
         binding.mapView.setMap(new ArcGISMap());
         binding.mapView.getMap().getBasemap().getBaseLayers().add(new GoogleMapLayer().createLayer(VECTOR));
+//        binding.mapView.setViewpointAsync(new Viewpoint(getLocationTracker(requireActivity()).getLatitude()
+//                , getLocationTracker(requireActivity()).getLongitude(), 3600));
         try {
             AsyncTask.execute(() -> {
                 while (getLocationTracker(requireActivity()).getLocation() == null)
                     binding.progressBar.setVisibility(View.VISIBLE);
-                binding.mapView.setViewpoint(new Viewpoint(getLocationTracker(requireActivity()).getLatitude()
-                        , getLocationTracker(requireActivity()).getLongitude(), 3600));
+                showCurrentLocation(getLocationTracker(requireActivity()).getLatitude()
+                        , getLocationTracker(requireActivity()).getLongitude());
                 requireActivity().runOnUiThread(() -> binding.progressBar.setVisibility(View.GONE));
             });
         } catch (Exception e) {
             new CustomToast().warning(e.toString());
         }
+    }
 
+    private void showCurrentLocation(final double latitude, final double longitude) {
+        binding.mapView.setViewpoint(new Viewpoint(latitude, longitude, 3600));
+        final GraphicsOverlay graphicOverlay = new GraphicsOverlay();
+        graphicOverlay.getGraphics().add(createGraphicTextPoint(latitude, longitude, getString(R.string.your_place)));
+        graphicOverlay.getGraphics().add(createGraphicPicturePoint(latitude, longitude,
+                com.esri.arcgisruntime.R.drawable.arcgisruntime_location_display_compass_symbol));
+        binding.mapView.getGraphicsOverlays().add(graphicOverlay);
+        currentLocationLayer = binding.mapView.getGraphicsOverlays().size() - 1;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void onMapClickListener() {
         binding.mapView.setOnTouchListener(new DefaultMapViewOnTouchListener(requireContext(), binding.mapView) {
-
             @Override
             public void onLongPress(MotionEvent event) {
                 super.onLongPress(event);
                 isLong = true;
+                binding.mapView.getGraphicsOverlays().get(currentLocationLayer).setVisible(false);
+                if (pointLayer >= 0) {
+                    binding.mapView.getGraphicsOverlays().remove(pointLayer);
+                    pointLayer = -1;
+                }
             }
 
             @Override
             public boolean onUp(MotionEvent e) {
                 if (isLong) {
-                    if (pointLayer >= 0) {
-                        binding.mapView.getGraphicsOverlays().remove(pointLayer);
-                        pointLayer = -1;
-                    }
-                    graphicPoint = mMapView.screenToLocation(new android.graphics.Point((int) e.getX(),
-                            (int) e.getY()));
+                    binding.mapView.getGraphicsOverlays().get(currentLocationLayer).setVisible(true);
+                    graphicPoint = GisTools.getPoint(binding.mapView.screenToLocation(new android.graphics.Point((int) e.getX(),
+                            (int) e.getY())));
                     addPoint();
                 }
                 isLong = false;
                 return super.onUp(e);
             }
-
         });
     }
 
     private void addPoint() {
-        final GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-        final BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(requireContext(),
-                R.drawable.img_marker);
-        final PictureMarkerSymbol symbol = new PictureMarkerSymbol(drawable);
-        final Graphic graphic = new Graphic(graphicPoint, symbol);
-        graphicsOverlay.getGraphics().add(graphic);
-        binding.mapView.getGraphicsOverlays().add(graphicsOverlay);
-        this.pointLayer = binding.mapView.getGraphicsOverlays().size() - 1;
+        final GraphicsOverlay graphicOverlay = new GraphicsOverlay();
+        graphicOverlay.getGraphics().add(createGraphicPicturePoint(graphicPoint.getY(), graphicPoint.getX(),
+                R.drawable.img_marker));
+        binding.mapView.getGraphicsOverlays().add(graphicOverlay);
+        pointLayer = binding.mapView.getGraphicsOverlays().size() - 1;
     }
 
     @Override
@@ -172,13 +178,13 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     }
 
     private void hideKeyboard(final View view) {
-        InputMethodManager imm = (InputMethodManager) requireContext()
+        final InputMethodManager imm = (InputMethodManager) requireContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void showKeyboard() {
-        InputMethodManager imm = (InputMethodManager) requireContext()
+        final InputMethodManager imm = (InputMethodManager) requireContext()
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
@@ -187,23 +193,18 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     private void insertPoint(final String eshterak) {
         final UsersPoints userPoint = new UsersPoints();
         userPoint.eshterak = eshterak;
-        getPoint(userPoint);
+        userPoint.x = graphicPoint.getX();
+        userPoint.y = graphicPoint.getY();
         getDateInformation(userPoint);
         getApplicationComponent().MyDatabase().usersPointDao().insertUsersPoint(userPoint);
         new CustomToast().success(getString(R.string.added_succeed));
     }
 
-    private void getPoint(final UsersPoints userPoint) {
-        final String latLong = String.valueOf(CoordinateFormatter.toLatitudeLongitude(graphicPoint,
-                CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES, 10));
-        userPoint.x = CoordinateFormatter.fromLatitudeLongitude(latLong, null).getX();
-        userPoint.y = CoordinateFormatter.fromLatitudeLongitude(latLong, null).getY();
-    }
 
     @SuppressLint("SimpleDateFormat")
     private void getDateInformation(final UsersPoints userPoint) {
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy MM dd HH:mm:ss:SSS");
-        CalendarTool calendarTool = new CalendarTool();
+        final CalendarTool calendarTool = new CalendarTool();
         userPoint.date = calendarTool.getIranianDate();
         userPoint.phoneDateTime = dateFormatter.format(new Date(Calendar.getInstance().getTimeInMillis()));
         if (getLocationTracker(requireActivity()).getCurrentLocation() != null)

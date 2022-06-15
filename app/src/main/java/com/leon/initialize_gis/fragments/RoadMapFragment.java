@@ -3,8 +3,9 @@ package com.leon.initialize_gis.fragments;
 import static com.leon.initialize_gis.enums.BundleEnum.LATITUDE;
 import static com.leon.initialize_gis.enums.BundleEnum.LONGITUDE;
 import static com.leon.initialize_gis.enums.MapType.VECTOR;
+import static com.leon.initialize_gis.utils.gis.GisTools.createGraphicPicturePoint;
+import static com.leon.initialize_gis.utils.gis.GisTools.createGraphicTextPoint;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +13,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.leon.initialize_gis.R;
 import com.leon.initialize_gis.databinding.FragmentRoadMapBinding;
 import com.leon.initialize_gis.utils.gis.GoogleMapLayer;
@@ -72,12 +68,9 @@ public class RoadMapFragment extends DialogFragment {
 
     private void addPoint() {
         final GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
-        final BitmapDrawable drawable = (BitmapDrawable) ContextCompat.getDrawable(requireContext(),
-                R.drawable.img_marker);
-        final PictureMarkerSymbol symbol = new PictureMarkerSymbol(drawable);
-        final Point graphicPoint = new Point(longitude, latitude, SpatialReferences.getWgs84());
-        final Graphic graphic = new Graphic(graphicPoint, symbol);
-        graphicsOverlay.getGraphics().add(graphic);
+        graphicsOverlay.getGraphics().add(createGraphicTextPoint(latitude, longitude, getString(R.string.eshterak_place)));
+        graphicsOverlay.getGraphics().add(createGraphicPicturePoint(latitude, longitude,
+                com.esri.arcgisruntime.R.drawable.arcgisruntime_location_display_course_symbol));
         binding.mapView.getGraphicsOverlays().add(graphicsOverlay);
     }
 
@@ -92,6 +85,7 @@ public class RoadMapFragment extends DialogFragment {
         }
         super.onResume();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
