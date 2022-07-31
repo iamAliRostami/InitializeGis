@@ -85,8 +85,8 @@ android {
         applicationId "com.leon.initialize_gis"
         minSdk 23
         targetSdk 32
-        versionCode 3
-        versionName "1.01.03.29"
+        versionCode 4
+        versionName "1.01.04.04"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

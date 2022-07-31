@@ -5,15 +5,15 @@
     "kind": "Directory"
   },
   "applicationId": "com.leon.initialize_gis",
-  "variantName": "release",
+  "variantName": "licensed",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
       "versionCode": 4,
-      "versionName": "1.01.03.30",
-      "outputFile": "app-release.apk"
+      "versionName": "1.01.04.04",
+      "outputFile": "app-licensed.apk"
     }
   ],
   "elementType": "File"
