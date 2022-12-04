@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,8 +22,13 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.LicenseLevel;
+import com.esri.arcgisruntime.LicenseResult;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.layers.OpenStreetMapLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DefaultMapViewOnTouchListener;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
@@ -62,6 +68,7 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
 
     private void initialize() {
         binding.fab.setOnClickListener(this);
+
         initializeMap();
     }
 
@@ -73,8 +80,18 @@ public class LocationPointFragment extends Fragment implements View.OnClickListe
     }
 
     private void initializeBaseMap() {
-        binding.mapView.setMap(new ArcGISMap());
-        binding.mapView.getMap().getBasemap().getBaseLayers().add(new GoogleMapLayer().createLayer(VECTOR));
+//        ArcGISRuntimeEnvironment.setApiKey("AAPK32898433270b470c8dfb6f537d822ea7o-KcXfQkrf3DKg6ZlLyy7eyrbWtHAsn9BHzZymWC9UoGUgi91sjkPQ9cMs_eWxvS");
+//        ArcGISRuntimeEnvironment.setApiKey("runtimelite,1000,rud5845572625,none,8SH93PJPXLMS2T8AG085");
+        ArcGISRuntimeEnvironment.setLicense("runtimelite,1000,rud5845572625,none,8SH93PJPXLMS2T8AG085");
+//        ArcGISRuntimeEnvironment.setLicense("runtimelite,1000,rud8277465837,none,8SH93PJPXMH2NERL1236");
+//        ArcGISRuntimeEnvironment.setLicense("runtimelite,1000,rud8277465837,none,8SH93PJPXMH2NERL1236");
+//        ArcGISRuntimeEnvironment.setLicense("runtimelite,1000,rud4449636536,none,NKMFA0PL4S0DRJE15166");
+
+//        ArcGISMap map = new ArcGISMap();
+        ArcGISMap map = new ArcGISMap(BasemapStyle.OSM_STREETS);
+        binding.mapView.setMap(map);
+//        binding.mapView.getMap().getBasemap().getBaseLayers().add(new GoogleMapLayer().createLayer(VECTOR));
+//        binding.mapView.getMap().getBasemap().getBaseLayers().add(new OpenStreetMapLayer());
         try {
             AsyncTask.execute(() -> {
                 while (getLocationTracker(requireActivity()).getLocation() == null)
